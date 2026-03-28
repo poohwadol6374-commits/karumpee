@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Courses | Better Day Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── Nav Avatar (logged in) ── */
+        .nav-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border-primary);
+            transition: border-color 0.3s ease;
+        }
+        .nav-avatar:hover { border-color: var(--accent-blue); }
+        .nav-user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            font-family: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .logout-btn:hover { color: var(--accent-blue); }
+
+        /* ── Page Header ── */
+        .pg-hero {
+            position: relative;
+            padding: 11rem 0 4rem;
+            text-align: center;
+            overflow: hidden;
+        }
+        .pg-hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(var(--particle-color), 0.08) 0%, transparent 70%);
+            z-index: 0;
+            animation: heroGlow 6s ease-in-out infinite alternate;
+        }
+        @keyframes heroGlow {
+            0% { opacity: .4; transform: translateX(-50%) scale(1); }
+            100% { opacity: .8; transform: translateX(-50%) scale(1.1); }
+        }
+        .pg-hero .container { position: relative; z-index: 1; }
+        .pg-hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+        .pg-hero p {
+            color: var(--text-secondary);
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+        }
+
+        /* ── AI Finder Button ── */
+        .ai-finder-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.4rem;
+            border-radius: 980px;
+            border: 1px solid var(--border-primary);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            margin: 0 auto 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+        .ai-finder-btn:hover {
+            background: var(--accent-blue-subtle);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px var(--accent-blue-glow);
+        }
+        .ai-finder-btn svg { width: 18px; height: 18px; }
+        .ai-pulse { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent-blue); animation: aiPulse 2s ease-in-out infinite; }
+        @keyframes aiPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+
+        /* ── AI Chat Modal ── */
+        .ai-modal {
+            position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,.6); backdrop-filter: blur(12px);
+            display: none; align-items: center; justify-content: center;
+            padding: 1.5rem; opacity: 0; transition: opacity .35s ease;
+        }
+        .ai-modal.show { display: flex; opacity: 1; }
+        .ai-box {
+            width: 100%; max-width: 560px; max-height: 80vh;
+            background: var(--bg-card); border: 1px solid var(--border-primary);
+            border-radius: 24px; overflow: hidden; display: flex; flex-direction: column;
+            box-shadow: var(--shadow-lg);
+            animation: aiBoxIn .4s cubic-bezier(.34,1.56,.64,1);
+        }
+        @keyframes aiBoxIn { from{transform:scale(.9) translateY(20px);opacity:0} to{transform:scale(1) translateY(0);opacity:1} }
+
+        .ai-header {
+            padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-primary);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .ai-header-left { display: flex; align-items: center; gap: .6rem; }
+        .ai-avatar { width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .ai-header-left h3 { font-size: 1rem; margin-bottom: 0; }
+        .ai-header-left span { font-size: .75rem; color: var(--text-tertiary); }
+        .ai-close { background: none; border: none; color: var(--text-tertiary); cursor: pointer; padding: .25rem; transition: color .2s; font-size: 1.3rem; }
+        .ai-close:hover { color: var(--text-primary); }
+
+        .ai-messages {
+            flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem;
+            display: flex; flex-direction: column; gap: .75rem;
+        }
+        .ai-msg {
+            max-width: 85%; padding: .75rem 1rem; border-radius: 16px;
+            font-size: .88rem; line-height: 1.6;
+            animation: msgIn .3s ease;
+        }
+        @keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+        .ai-msg.bot {
+            align-self: flex-start;
+            background: var(--accent-blue-subtle);
+            border: 1px solid rgba(var(--particle-color), .1);
+            border-bottom-left-radius: 4px;
+        }
+        .ai-msg.user {
+            align-self: flex-end;
+            background: var(--accent-blue);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+        .ai-msg a {
+            color: var(--accent-blue);
+            font-weight: 600;
+            text-decoration: underline;
+        }
+        .ai-msg.user a { color: #fff; }
+
+        /* Typing indicator */
+        .ai-typing { display: flex; gap: 4px; padding: .75rem 1rem; align-self: flex-start; }
+        .ai-typing span {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--text-tertiary); animation: typeDot 1.2s ease-in-out infinite;
+        }
+        .ai-typing span:nth-child(2) { animation-delay: .2s; }
+        .ai-typing span:nth-child(3) { animation-delay: .4s; }
+        @keyframes typeDot { 0%,100%{opacity:.3;transform:translateY(0)} 50%{opacity:1;transform:translateY(-4px)} }
+
+        /* Course recommendation card */
+        .ai-course {
+            display: flex; gap: .75rem; padding: .75rem; margin-top: .5rem;
+            background: rgba(var(--particle-color), .05); border: 1px solid var(--border-primary);
+            border-radius: 14px; transition: all .3s; cursor: pointer;
+        }
+        .ai-course:hover { border-color: var(--accent-blue); transform: translateY(-2px); }
+        .ai-course img { width: 60px; height: 42px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+        .ai-course-info { flex: 1; }
+        .ai-course-name { font-size: .82rem; font-weight: 600; margin-bottom: .15rem; }
+        .ai-course-meta { font-size: .7rem; color: var(--text-tertiary); }
+
+        .ai-input-wrap {
+            padding: 1rem 1.5rem; border-top: 1px solid var(--border-primary);
+            display: flex; gap: .5rem;
+        }
+        .ai-input {
+            flex: 1; padding: .7rem 1rem; background: rgba(var(--particle-color), .03);
+            border: 1px solid var(--border-primary); border-radius: 14px;
+            color: var(--text-primary); font-family: inherit; font-size: .88rem;
+            outline: none; transition: border-color .3s;
+        }
+        .ai-input::placeholder { color: var(--text-tertiary); }
+        .ai-input:focus { border-color: var(--accent-blue); }
+        .ai-send {
+            width: 40px; height: 40px; border-radius: 12px;
+            background: var(--accent-blue); border: none; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all .3s; flex-shrink: 0;
+        }
+        .ai-send:hover { background: var(--accent-blue-hover); transform: scale(1.05); }
+        .ai-send svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+        /* Quick suggestions */
+        .ai-suggestions { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
+        .ai-sug {
+            padding: .35rem .75rem; border-radius: 980px; font-size: .75rem;
+            border: 1px solid var(--border-primary); background: transparent;
+            color: var(--text-secondary); cursor: pointer; font-family: inherit;
+            transition: all .25s;
+        }
+        .ai-sug:hover { background: var(--accent-blue-subtle); border-color: var(--accent-blue); color: var(--accent-blue); }
+
+        /* ── Search Bar ── */
+        .search-wrap {
+            max-width: 480px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+        .search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+            pointer-events: none;
+        }
+        .search-input {
+            width: 100%;
+            padding: 0.9rem 1.25rem 0.9rem 3rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 980px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .search-input::placeholder { color: var(--text-tertiary); }
+        .search-input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px var(--accent-blue-glow);
+        }
+
+        /* ── Filter Tabs ── */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .f-btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: 980px;
+            border: 1px solid var(--border-primary);
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .f-btn:hover {
+            background: var(--accent-blue-subtle);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+        .f-btn.active {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: #fff;
+            box-shadow: 0 0 15px var(--accent-blue-glow);
+        }
+
+        /* ── Course Count ── */
+        .course-count {
+            text-align: center;
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            margin: 2rem 0 0.5rem;
+        }
+
+        /* ── Courses Grid Override ── */
+        .cg {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0 4rem;
+        }
+
+        /* ── Course Card ── */
+        .cc {
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            position: relative;
+        }
+        .cc:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--border-secondary);
+        }
+        /* Card appear animation */
+        .cc { opacity: 0; transform: translateY(30px); }
+        .cc.show { opacity: 1; transform: translateY(0); }
+        .cc.hide { display: none; }
+
+        .cc-thumb {
+            height: 190px;
+            position: relative;
+            overflow: hidden;
+        }
+        .cc-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .cc:hover .cc-thumb img { transform: scale(1.06); }
+        .cc-thumb::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);
+        }
+
+        /* Shine */
+        .cc-shine {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0.07) 50%, rgba(255,255,255,0.04) 55%, transparent 60%);
+            transform: translateX(-100%);
+            transition: transform 0.7s ease;
+            z-index: 2;
+        }
+        .cc:hover .cc-shine { transform: translateX(100%); }
+
+        .cc-level {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            padding: 0.2rem 0.65rem;
+            border-radius: 980px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            z-index: 3;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            letter-spacing: 0.3px;
+        }
+        .cc-level.beg { border: 1px solid rgba(48,209,88,0.5); }
+        .cc-level.int { border: 1px solid rgba(255,159,10,0.5); }
+        .cc-level.pro { border: 1px solid rgba(255,69,58,0.5); }
+
+        .cc-hours {
+            position: absolute;
+            bottom: 0.75rem;
+            right: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 980px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(8px);
+            color: rgba(255,255,255,0.8);
+            z-index: 3;
+        }
+
+        /* Play overlay */
+        .cc-play {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .cc:hover .cc-play { opacity: 1; }
+        .cc-play-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        .cc:hover .cc-play-btn { transform: scale(1.1); }
+
+        .cc-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .cc-cat {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .cc-title {
+            font-family: 'Prompt', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.35;
+            margin-bottom: 0.6rem;
+            letter-spacing: -0.01em;
+        }
+        .cc-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            flex: 1;
+            margin-bottom: 1.25rem;
+        }
+        .cc-foot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-primary);
+            padding-top: 1rem;
+        }
+        .cc-price {
+            font-family: 'Prompt', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+        .cc-btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 980px;
+            background: var(--accent-blue);
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .cc-btn:hover {
+            background: var(--accent-blue-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 0 15px var(--accent-blue-glow);
+        }
+
+        /* ── No Results ── */
+        .no-results {
+            text-align: center;
+            padding: 4rem 1rem;
+            color: var(--text-tertiary);
+            display: none;
+        }
+        .no-results.show { display: block; }
+        .no-results svg { margin-bottom: 1rem; opacity: 0.3; }
+        .no-results p { font-size: 1rem; }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .cg { grid-template-columns: 1fr; }
+            .pg-hero { padding: 8rem 0 3rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="brand-logo">
+                <span class="logo-icon">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                        <rect width="28" height="28" rx="8" fill="url(#cLG)"/>
+                        <path d="M8 14L12 18L20 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs><linearGradient id="cLG" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#e63946"/><stop offset="1" stop-color="#c1121f"/></linearGradient></defs>
+                    </svg>
+                </span>
+                BetterDay<span class="dot">.</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html" class="active">Courses</a></li>
+            </ul>
+            <div class="nav-actions" id="navActions">
+                <!-- JS will populate based on login state -->
+            </div>
+            <div class="mobile-nav-right">
+                <button class="theme-toggle mobile-theme-btn" aria-label="Toggle theme" onclick="toggleTheme()">
+                    <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
+                <button class="mobile-toggle" aria-label="Toggle Menu" id="mobToggle">
+                    <span class="hamburger"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobOverlay">
+        <div class="mobile-menu-content">
+            <ul class="mobile-nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html" class="active">Courses</a></li>
+            </ul>
+            <div class="mobile-nav-actions" id="mobActions">
+                <!-- JS will populate -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Hero -->
+    <header class="pg-hero">
+        <div class="container">
+            <div class="reveal-up">
+                <p class="section-label">E-LEARNING PLATFORM</p>
+                <h1>หลักสูตรทั้งหมด</h1>
+                <p>เลือกเรียนทักษะที่คุณสนใจ เพื่อพัฒนาธุรกิจให้เติบโตในโลกดิจิทัล</p>
+            </div>
+            <div class="search-wrap reveal-up" style="transition-delay:.1s">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <input type="text" class="search-input" id="searchInput" placeholder="ค้นหาหลักสูตร...">
+            </div>
+            <div class="text-center reveal-up" style="transition-delay:.12s">
+                <button class="ai-finder-btn" id="aiFinderBtn">
+                    <span class="ai-pulse"></span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    AI ช่วยหาคอร์สที่เหมาะกับคุณ
+                </button>
+            </div>
+            <div class="filters reveal-up" style="transition-delay:.15s">
+                <button class="f-btn active" data-filter="all">ทั้งหมด</button>
+                <button class="f-btn" data-filter="wishlist">❤️ รายการโปรด</button>
+                <button class="f-btn" data-filter="marketing">Marketing</button>
+                <button class="f-btn" data-filter="branding">Branding</button>
+                <button class="f-btn" data-filter="ai">AI & Automation</button>
+                <button class="f-btn" data-filter="video">Video Production</button>
+                <button class="f-btn" data-filter="strategy">Strategy</button>
+            </div>
+            <div class="course-count reveal-up" style="transition-delay:.2s" id="courseCount">แสดง 6 หลักสูตร</div>
+        </div>
+    </header>
+
+    <!-- Courses Grid -->
+    <section class="section" style="padding-top:2rem">
+        <div class="container">
+            <div class="cg" id="coursesGrid"></div>
+            <div class="no-results" id="noResults">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6"/></svg>
+                <p>ไม่พบหลักสูตรที่ตรงกับการค้นหา</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wishlist Toast -->
+    <div class="wish-toast" id="wishToast"><svg viewBox="0 0 24 24" fill="#e63946" stroke="#e63946" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span id="wishToastMsg"></span></div>
+
+    <!-- AI Course Finder Modal -->
+    <div class="ai-modal" id="aiModal">
+        <div class="ai-box">
+            <div class="ai-header">
+                <div class="ai-header-left">
+                    <div class="ai-avatar" style="background:var(--accent-blue-subtle)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <div><h3>AI Course Finder</h3><span>พิมพ์ถามเพื่อหาคอร์สที่เหมาะกับคุณ</span></div>
+                </div>
+                <button class="ai-close" onclick="closeAI()">&times;</button>
+            </div>
+            <div class="ai-messages" id="aiMessages">
+                <div class="ai-msg bot">
+                    👋 สวัสดีครับ! ผมเป็น AI ผู้ช่วยของ Better Day Agency<br><br>
+                    บอกผมได้เลยว่าคุณสนใจเรียนเรื่องอะไร หรือธุรกิจของคุณต้องการพัฒนาด้านไหน แล้วผมจะแนะนำคอร์สที่เหมาะสมให้ครับ 🎯
+                    <div class="ai-suggestions">
+                        <button class="ai-sug" onclick="aiAsk('อยากเรียนเรื่อง AI')">🤖 เรียนเรื่อง AI</button>
+                        <button class="ai-sug" onclick="aiAsk('อยากสร้างแบรนด์')">🎨 สร้างแบรนด์</button>
+                        <button class="ai-sug" onclick="aiAsk('อยากยิงโฆษณา')">📈 ยิงโฆษณา</button>
+                        <button class="ai-sug" onclick="aiAsk('อยากทำคลิปสั้น')">🎬 ทำคลิปสั้น</button>
+                        <button class="ai-sug" onclick="aiAsk('อยากวางแผนกลยุทธ์')">🧠 วางกลยุทธ์</button>
+                        <button class="ai-sug" onclick="aiAsk('อยากทำ Email Marketing')">📧 Email Marketing</button>
+                    </div>
+                </div>
+            </div>
+            <div class="ai-input-wrap">
+                <input type="text" class="ai-input" id="aiInput" placeholder="พิมพ์สิ่งที่คุณสนใจ..." onkeydown="if(event.key==='Enter')aiSend()">
+                <button class="ai-send" onclick="aiSend()"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top:none;padding-top:0">
+                <p>&copy; 2026 Better Day Agency Co., Ltd. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="btt" aria-label="Back to top">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <script src="course-data.js"></script>
+    <script src="ai-finder.js"></script>
+    <script>
+        // Theme
+        const root = document.documentElement;
+        root.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');
+        function toggleTheme() {
+            const n = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', n);
+            localStorage.setItem('theme', n);
+        }
+
+        // Render courses from data
+        (function renderCourses() {
+            const grid = document.getElementById('coursesGrid');
+            let html = '';
+            Object.values(COURSES).forEach(c => {
+                const owned = isPurchased(c.id);
+                const wished = isWishlisted(c.id);
+                const btnHTML = owned
+                    ? `<span style="font-size:.75rem;color:#30d158;font-weight:600">✓ ซื้อแล้ว</span>`
+                    : `<a href="course-detail.html?id=${c.id}" class="cc-btn" onclick="event.stopPropagation()">ดูรายละเอียด</a>`;
+                const wishBtnHTML = !owned ? `<button class="wish-btn${wished ? ' active' : ''}" onclick="event.stopPropagation();handleWish('${c.id}',this)" aria-label="Wishlist"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>` : '';
+                html += `<article class="cc" data-cat="${c.catKey}" data-name="${c.title}" onclick="location.href='course-detail.html?id=${c.id}'">
+                    <div class="cc-thumb"><img src="${c.img}" alt="${c.title}" loading="lazy"><span class="cc-level ${c.levelClass}">${c.level}</span><span class="cc-hours">${c.hours} Hrs</span><div class="cc-play"><div class="cc-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div></div><div class="cc-shine"></div>${owned ? '<div style="position:absolute;top:.75rem;right:.75rem;z-index:4;background:rgba(48,209,88,.85);color:#fff;padding:.2rem .6rem;border-radius:980px;font-size:.6rem;font-weight:700">OWNED</div>' : wishBtnHTML}</div>
+                    <div class="cc-body"><div class="cc-cat">${c.cat}</div><h3 class="cc-title">${c.title}</h3><p class="cc-desc">${c.desc.substring(0, 100)}...</p><div class="cc-foot"><span class="cc-price">฿${c.price.toLocaleString()}</span>${btnHTML}</div></div></article>`;
+            });
+            grid.innerHTML = html;
+        })();
+
+        // Auth state — populate nav
+        (function setAuthUI() {
+            const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const navActions = document.getElementById('navActions');
+            const mobActions = document.getElementById('mobActions');
+            const themeBtn = `<button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+                <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>`;
+
+            if (loggedIn) {
+                // Add Certificates to nav links
+                const navLinksUl = document.querySelector('.nav-links');
+                if (navLinksUl && !navLinksUl.querySelector('a[href="certificates.html"]')) {
+                    const li = document.createElement('li');
+                    li.innerHTML = '<a href="certificates.html">Certificates</a>';
+                    navLinksUl.appendChild(li);
+                }
+
+                navActions.innerHTML = `
+                    <div class="nav-avatar-wrap">
+                        <img src="https://i.pravatar.cc/100?img=11" alt="Profile" class="nav-avatar-img">
+                        <div class="avatar-dropdown">
+                            <div class="avatar-dd-header"><img src="https://i.pravatar.cc/100?img=11" alt="Profile"><div><strong>User</strong><span>user@example.com</span></div></div>
+                            <div class="avatar-dd-divider"></div>
+                            <a href="dashboard.html" class="avatar-dd-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+                            <a href="my-courses.html" class="avatar-dd-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>My Courses</a>
+                            <a href="certificates.html" class="avatar-dd-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Certificates</a>
+                            <a href="settings.html" class="avatar-dd-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</a>
+                            <div class="avatar-dd-divider"></div>
+                            <a href="#" class="avatar-dd-item avatar-dd-logout" onclick="event.preventDefault();localStorage.removeItem('isLoggedIn');location.href='index.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</a>
+                        </div>
+                    </div>
+                    ${themeBtn}`;
+                mobActions.innerHTML = `
+                    <a href="certificates.html" class="btn btn-outline btn-large" style="width:100%">Certificates</a>
+                    <button class="btn btn-primary btn-large" style="width:100%" onclick="localStorage.removeItem('isLoggedIn');location.href='index.html'">Logout</button>`;
+            } else {
+                navActions.innerHTML = `
+                    <a href="login.html" class="btn btn-ghost">Log In</a>
+                    <a href="register.html" class="btn btn-primary btn-glow">Sign Up</a>
+                    ${themeBtn}`;
+                mobActions.innerHTML = `
+                    <a href="login.html" class="btn btn-outline btn-large" style="width:100%">Log In</a>
+                    <a href="register.html" class="btn btn-primary btn-large" style="width:100%">Sign Up</a>`;
+            }
+        })();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wishlist handler (global)
+            window.handleWish = function(id, btn) {
+                const added = toggleWishlist(id);
+                btn.classList.toggle('active', added);
+                // Animate
+                if (added) btn.style.animation = 'wishPop 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+                // Toast
+                const toast = document.getElementById('wishToast');
+                const toastMsg = document.getElementById('wishToastMsg');
+                const c = COURSES[id];
+                if (added) {
+                    toast.querySelector('svg').setAttribute('fill', '#e63946');
+                    toastMsg.textContent = c.title + ' เพิ่มในรายการโปรดแล้ว';
+                } else {
+                    toast.querySelector('svg').setAttribute('fill', 'none');
+                    toastMsg.textContent = c.title + ' ลบออกจากรายการโปรดแล้ว';
+                }
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2500);
+                // Update wishlist count in filter
+                updateWishCount();
+            };
+
+            function updateWishCount() {
+                const wishTab = document.querySelector('.f-btn[data-filter="wishlist"]');
+                if (wishTab) {
+                    const count = getWishlist().length;
+                    wishTab.textContent = '❤️ รายการโปรด' + (count > 0 ? ' (' + count + ')' : '');
+                }
+            }
+
+            const cards = document.querySelectorAll('.cc');
+            const filterBtns = document.querySelectorAll('.f-btn');
+            const searchInput = document.getElementById('searchInput');
+            const countEl = document.getElementById('courseCount');
+            const noResults = document.getElementById('noResults');
+            let activeFilter = 'all';
+
+            // Reveal cards on load
+            cards.forEach((c, i) => {
+                setTimeout(() => c.classList.add('show'), 80 * i);
+            });
+
+            // Scroll reveal for hero elements
+            const revEls = document.querySelectorAll('.reveal-up');
+            const revObs = new IntersectionObserver((entries) => {
+                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); revObs.unobserve(e.target); } });
+            }, { threshold: 0.1 });
+            revEls.forEach(el => revObs.observe(el));
+
+            function filterCards() {
+                const q = searchInput.value.toLowerCase().trim();
+                const wishlist = getWishlist();
+                let visible = 0;
+
+                cards.forEach((c, i) => {
+                    const cat = c.dataset.cat;
+                    const name = c.dataset.name.toLowerCase();
+                    const courseId = Object.values(COURSES).find(x => x.title === c.dataset.name)?.id;
+                    const matchFilter = activeFilter === 'all' || cat === activeFilter || (activeFilter === 'wishlist' && courseId && wishlist.includes(courseId));
+                    const matchSearch = !q || name.includes(q) || cat.includes(q);
+
+                    if (matchFilter && matchSearch) {
+                        c.classList.remove('hide');
+                        c.style.transitionDelay = (visible * 0.05) + 's';
+                        requestAnimationFrame(() => c.classList.add('show'));
+                        visible++;
+                    } else {
+                        c.classList.add('hide');
+                        c.classList.remove('show');
+                        c.style.transitionDelay = '0s';
+                    }
+                });
+
+                countEl.textContent = `แสดง ${visible} หลักสูตร`;
+                noResults.classList.toggle('show', visible === 0);
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeFilter = btn.dataset.filter;
+                    filterCards();
+                });
+            });
+
+            searchInput.addEventListener('input', filterCards);
+
+            // Navbar scroll
+            const navbar = document.querySelector('.navbar');
+            const btt = document.getElementById('btt');
+            window.addEventListener('scroll', () => {
+                navbar.classList.toggle('scrolled', window.scrollY > 50);
+                btt.classList.toggle('visible', window.scrollY > 500);
+            }, { passive: true });
+            btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+            // Mobile menu
+            const mobToggle = document.getElementById('mobToggle');
+            const mobOverlay = document.getElementById('mobOverlay');
+            if (mobToggle && mobOverlay) {
+                mobToggle.addEventListener('click', () => {
+                    mobToggle.classList.toggle('active');
+                    mobOverlay.classList.toggle('active');
+                    document.body.style.overflow = mobOverlay.classList.contains('active') ? 'hidden' : '';
+                });
+                mobOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+                    mobToggle.classList.remove('active');
+                    mobOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }));
+            }
+
+            // Tilt on cards
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const r = card.getBoundingClientRect();
+                    const x = (e.clientX - r.left) / r.width - 0.5;
+                    const y = (e.clientY - r.top) / r.height - 0.5;
+                    card.style.transform = `perspective(800px) rotateY(${x*4}deg) rotateX(${-y*4}deg) translateY(-8px)`;
+                });
+                card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+            });
+        });
+    </script>
+    <script src="reminder.js"></script>
+</body>
+</html>

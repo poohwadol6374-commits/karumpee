@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses | Better Day Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root,[data-theme="dark"]{--bg:#0a0a0a;--bg2:#111;--card:rgba(20,20,20,.85);--card-h:rgba(30,30,30,.95);--nav-bg:rgba(10,10,10,.82);--brd:rgba(255,255,255,.06);--brd2:rgba(255,255,255,.1);--tx:#f5f5f7;--tx2:#b0b0b5;--tx3:#6e6e73;--ac:#e63946;--ac-h:#c1121f;--ac-s:rgba(230,57,70,.1);--ac-g:rgba(230,57,70,.2);--green:#30d158;--orange:#ff9f0a;color-scheme:dark}
+        [data-theme="light"]{--bg:#fff;--bg2:#f5f5f7;--card:rgba(255,255,255,.92);--card-h:rgba(250,248,248,1);--nav-bg:rgba(255,255,255,.82);--brd:rgba(0,0,0,.06);--brd2:rgba(0,0,0,.1);--tx:#1a1a1a;--tx2:#555;--tx3:#999;--ac:#c1121f;--ac-h:#a00d1a;--ac-s:rgba(193,18,31,.06);--ac-g:rgba(193,18,31,.12);--green:#2d8a4e;--orange:#d4700a;color-scheme:light}
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter','Prompt',-apple-system,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
+        a{color:inherit;text-decoration:none}
+        h1,h2,h3,h4{font-family:'Prompt',sans-serif;font-weight:600;letter-spacing:-.02em}
+
+        .wrap{display:flex;min-height:100vh}
+
+        /* Sidebar — same as dashboard */
+        .side{width:260px;background:var(--bg);border-right:1px solid var(--brd);position:fixed;height:100vh;display:flex;flex-direction:column;padding:1.5rem;z-index:100;transition:background .4s}
+        .side-logo{font-family:'Prompt',sans-serif;font-size:1.3rem;font-weight:700;display:flex;align-items:center;gap:.5rem;margin-bottom:2rem;padding:.5rem}
+        .side-logo .dot{color:var(--ac)}
+        .side-nav{display:flex;flex-direction:column;gap:.25rem;flex:1}
+        .side-nav a{padding:.7rem 1rem;border-radius:12px;color:var(--tx3);display:flex;align-items:center;gap:.75rem;font-size:.9rem;font-weight:500;transition:all .25s ease}
+        .side-nav a svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+        .side-nav a:hover{background:var(--ac-s);color:var(--tx)}
+        .side-nav a.active{background:var(--ac-s);color:var(--ac);font-weight:600}
+        .side-nav a.active svg{stroke:var(--ac)}
+        .side-bottom{border-top:1px solid var(--brd);padding-top:1rem;display:flex;flex-direction:column;gap:.25rem}
+        .side-bottom a{padding:.7rem 1rem;border-radius:12px;color:var(--tx3);display:flex;align-items:center;gap:.75rem;font-size:.9rem;font-weight:500;transition:all .25s ease}
+        .side-bottom a svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+        .side-bottom a:hover{background:rgba(230,57,70,.06);color:var(--ac)}
+
+        .main{flex:1;margin-left:260px;padding:2rem 3rem 4rem;max-width:1100px}
+
+        /* Topbar */
+        .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2.5rem}
+        .topbar h1{font-size:1.8rem;margin-bottom:.25rem}
+        .topbar p{color:var(--tx3);font-size:.95rem}
+        .topbar-right{display:flex;align-items:center;gap:.75rem}
+        .theme-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--brd);background:var(--card);color:var(--tx2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s}
+        .theme-btn:hover{background:var(--ac-s);color:var(--ac);border-color:var(--ac)}
+        [data-theme="dark"] .ic-sun{display:block}[data-theme="dark"] .ic-moon{display:none}
+        [data-theme="light"] .ic-sun{display:none}[data-theme="light"] .ic-moon{display:block}
+        .avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--brd)}
+
+        /* Tabs */
+        .mc-tabs{display:flex;gap:.5rem;margin-bottom:2rem;flex-wrap:wrap}
+        .mc-tab{padding:.5rem 1.1rem;border-radius:980px;border:1px solid var(--brd);background:transparent;color:var(--tx3);font-family:inherit;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .3s}
+        .mc-tab:hover{background:var(--ac-s);border-color:var(--ac);color:var(--ac)}
+        .mc-tab.active{background:var(--ac);border-color:var(--ac);color:#fff}
+        .mc-tab .cnt{font-size:.65rem;font-weight:700;margin-left:.3rem;opacity:.7}
+
+        /* Stats */
+        .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+        .stat{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:1.25rem;transition:all .35s}
+        .stat:hover{border-color:var(--brd2);transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.1)}
+        .stat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.75rem}
+        .stat-icon svg{width:18px;height:18px}
+        .stat-icon.red{background:var(--ac-s);color:var(--ac)}
+        .stat-icon.green{background:rgba(48,209,88,.1);color:var(--green)}
+        .stat-icon.orange{background:rgba(255,159,10,.1);color:var(--orange)}
+        .stat-icon.blue{background:rgba(41,151,255,.1);color:#2997ff}
+        .stat-num{font-family:'Prompt',sans-serif;font-size:1.5rem;font-weight:700;margin-bottom:.1rem}
+        .stat-label{font-size:.75rem;color:var(--tx3)}
+
+        /* Section head */
+        .sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem}
+        .sec-head h2{font-size:1.2rem}
+        .sec-head a{font-size:.82rem;color:var(--ac);font-weight:500;display:flex;align-items:center;gap:.3rem}
+
+        /* Grid */
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-bottom:2.5rem}
+
+        /* Course card */
+        .c-card{background:var(--card);border:1px solid var(--brd);border-radius:16px;overflow:hidden;transition:all .35s ease;display:flex;flex-direction:column}
+        .c-card:hover{border-color:var(--brd2);transform:translateY(-5px);box-shadow:0 12px 35px rgba(0,0,0,.15)}
+        .c-thumb{height:130px;position:relative;overflow:hidden}
+        .c-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+        .c-card:hover .c-thumb img{transform:scale(1.05)}
+        .c-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.4) 0%,transparent 50%)}
+        .c-badge{position:absolute;top:.6rem;right:.6rem;padding:.15rem .55rem;border-radius:980px;font-size:.6rem;font-weight:700;z-index:2;backdrop-filter:blur(8px);color:#fff}
+        .c-badge.prog{background:rgba(230,57,70,.8)}
+        .c-badge.done{background:rgba(48,209,88,.85)}
+        .c-badge.price{background:rgba(0,0,0,.6)}
+        .c-cat{position:absolute;top:.6rem;left:.6rem;padding:.15rem .5rem;border-radius:980px;font-size:.55rem;font-weight:600;z-index:2;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);color:#fff;letter-spacing:.3px}
+        .c-shine{position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.04) 45%,rgba(255,255,255,.07) 50%,rgba(255,255,255,.04) 55%,transparent 60%);transform:translateX(-100%);transition:transform .7s;z-index:3}
+        .c-card:hover .c-shine{transform:translateX(100%)}
+        .c-body{padding:1.25rem;flex:1;display:flex;flex-direction:column}
+        .c-meta{font-size:.72rem;color:var(--tx3);margin-bottom:.4rem;display:flex;gap:.4rem}
+        .c-meta .cat{color:var(--ac);font-weight:500}
+        .c-name{font-size:.95rem;font-weight:600;margin-bottom:.6rem;line-height:1.35}
+        .c-prog{margin-top:auto;margin-bottom:.75rem}
+        .c-prog-row{display:flex;justify-content:space-between;font-size:.7rem;color:var(--tx3);margin-bottom:.3rem}
+        .prog-bar{height:4px;background:var(--brd);border-radius:2px;overflow:hidden}
+        .prog-fill{height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
+        .c-btn{display:flex;align-items:center;justify-content:center;gap:.35rem;padding:.55rem;border-radius:10px;font-family:inherit;font-size:.8rem;font-weight:600;text-align:center;cursor:pointer;transition:all .3s;border:1px solid var(--brd);background:transparent;color:var(--tx);text-decoration:none}
+        .c-btn:hover{background:var(--ac-s);border-color:var(--ac);color:var(--ac)}
+        .c-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+        .c-btn.primary{background:var(--ac);color:#fff;border-color:var(--ac);box-shadow:0 0 10px var(--ac-g)}
+        .c-btn.primary:hover{background:var(--ac-h)}
+        .c-btn.green{border-color:rgba(48,209,88,.3);color:var(--green)}
+        .c-btn.green:hover{background:rgba(48,209,88,.08)}
+        .c-actions{display:flex;gap:.5rem}
+
+        /* Add card */
+        .add-card{background:transparent;border:2px dashed var(--brd);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;min-height:280px;cursor:pointer;transition:all .35s}
+        .add-card:hover{border-color:var(--ac);background:var(--ac-s)}
+        .add-icon{width:48px;height:48px;border-radius:50%;background:var(--ac-s);display:flex;align-items:center;justify-content:center;margin-bottom:.75rem;transition:transform .3s}
+        .add-card:hover .add-icon{transform:scale(1.1)}
+        .add-card h3{font-size:.95rem;margin-bottom:.25rem}
+        .add-card p{font-size:.78rem;color:var(--tx3)}
+
+        /* Empty */
+        .empty{text-align:center;padding:3rem 1rem;color:var(--tx3)}
+        .empty svg{width:48px;height:48px;stroke:var(--tx3);fill:none;stroke-width:1;opacity:.3;margin-bottom:.75rem}
+
+        /* Mobile */
+        .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;z-index:200;padding:.75rem 1.25rem;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--brd);justify-content:space-between;align-items:center}
+        .mob-logo{font-family:'Prompt',sans-serif;font-size:1.2rem;font-weight:700}.mob-logo .dot{color:var(--ac)}
+
+        .rv{opacity:0;transform:translateY(25px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}.rv.show{opacity:1;transform:translateY(0)}
+        .d1{transition-delay:.05s}.d2{transition-delay:.1s}.d3{transition-delay:.15s}.d4{transition-delay:.2s}.d5{transition-delay:.25s}
+
+        @media(max-width:900px){.side{display:none}.main{margin-left:0;padding:5rem 1.25rem 3rem}.mobile-bar{display:flex}.stats{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:500px){.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}}
+        ::selection{background:var(--ac-g);color:#fff}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:3px}
+    </style>
+</head>
+<body>
+    <!-- Mobile Bar -->
+    <div class="mobile-bar">
+        <span class="mob-logo">BetterDay<span class="dot">.</span></span>
+        <div style="display:flex;gap:.5rem;align-items:center">
+            <button class="theme-btn" onclick="toggleTheme()"><svg class="ic-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><svg class="ic-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+            <img class="avatar" src="https://i.pravatar.cc/100?img=11" alt="Profile">
+        </div>
+    </div>
+
+    <div class="wrap">
+        <!-- Sidebar -->
+        <aside class="side">
+            <a href="index.html" class="side-logo">
+                <svg width="24" height="24" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="url(#mcLG)"/><path d="M8 14L12 18L20 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="mcLG" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#e63946"/><stop offset="1" stop-color="#c1121f"/></linearGradient></defs></svg>
+                BetterDay<span class="dot">.</span>
+            </a>
+            <nav class="side-nav">
+                <a href="dashboard.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+                <a href="my-courses.html" class="active"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>My Courses</a>
+                <a href="certificates.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Certificates</a>
+                <a href="history.html"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>Purchase History</a>
+                <a href="settings.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</a>
+            </nav>
+            <div class="side-bottom">
+                <a href="#" onclick="localStorage.removeItem('isLoggedIn');location.href='index.html'"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main">
+            <header class="topbar rv d1">
+                <div>
+                    <h1>คอร์สเรียนของฉัน 📚</h1>
+                    <p>จัดการและเข้าเรียนคอร์สที่คุณซื้อไว้</p>
+                </div>
+                <div class="topbar-right">
+                    <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme"><svg class="ic-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><svg class="ic-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+                    <img class="avatar" src="https://i.pravatar.cc/100?img=11" alt="Profile">
+                </div>
+            </header>
+
+            <!-- Stats -->
+            <div class="stats" id="mcStats"></div>
+
+            <!-- Tabs -->
+            <div class="mc-tabs rv d2" id="mcTabs"></div>
+
+            <!-- Course Grid -->
+            <div id="mcContent"></div>
+        </main>
+    </div>
+
+    <script src="course-data.js"></script>
+    <script>
+        const root = document.documentElement;
+        root.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');
+        function toggleTheme() { const n = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'; root.setAttribute('data-theme', n); localStorage.setItem('theme', n); }
+
+        const purchased = getPurchased();
+        const completed = getCompleted();
+        let filter = 'all';
+
+        // Stats
+        const inProg = purchased.filter(id => !completed.includes(id)).length;
+        const totalHrs = purchased.reduce((s, id) => s + (COURSES[id]?.hours || 0), 0);
+        document.getElementById('mcStats').innerHTML = `
+            <div class="stat rv d1"><div class="stat-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><div class="stat-num">${purchased.length}</div><div class="stat-label">คอร์สที่ซื้อ</div></div>
+            <div class="stat rv d2"><div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="stat-num">${completed.length}</div><div class="stat-label">เรียนจบแล้ว</div></div>
+            <div class="stat rv d3"><div class="stat-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="stat-num">${totalHrs}h</div><div class="stat-label">เวลาเรียนทั้งหมด</div></div>
+            <div class="stat rv d4"><div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="stat-num">${completed.length}</div><div class="stat-label">ใบรับรอง</div></div>`;
+
+        // Tabs
+        const notOwned = Object.keys(COURSES).length - purchased.length;
+        document.getElementById('mcTabs').innerHTML = `
+            <button class="mc-tab active" data-f="all">ทั้งหมด<span class="cnt">${Object.keys(COURSES).length}</span></button>
+            <button class="mc-tab" data-f="learning">กำลังเรียน<span class="cnt">${inProg}</span></button>
+            <button class="mc-tab" data-f="done">เรียนจบ<span class="cnt">${completed.length}</span></button>
+            <button class="mc-tab" data-f="browse">ยังไม่ได้ซื้อ<span class="cnt">${notOwned}</span></button>`;
+
+        function render() {
+            const wrap = document.getElementById('mcContent');
+            let ownedHTML = '', browseHTML = '', ownedCount = 0, browseCount = 0;
+
+            Object.values(COURSES).forEach(c => {
+                const owned = purchased.includes(c.id);
+                const done = completed.includes(c.id);
+                const date = getCompletionDate(c.id);
+                const prog = done ? 100 : (owned ? Math.floor(Math.random() * 60 + 15) : 0);
+
+                if (owned) {
+                    if (filter === 'browse') return;
+                    if (filter === 'learning' && done) return;
+                    if (filter === 'done' && !done) return;
+                    ownedCount++;
+                    const badge = done ? `<span class="c-badge done">✓ จบแล้ว</span>` : `<span class="c-badge prog">${prog}%</span>`;
+                    const gradColor = done ? 'linear-gradient(90deg,#30d158,#28a745)' : `linear-gradient(90deg,${c.color},${c.color}88)`;
+                    const btns = done
+                        ? `<a href="learning-player.html?id=${c.id}" class="c-btn green"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>ดูอีกครั้ง</a><a href="certificates.html" class="c-btn"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>ใบรับรอง</a>`
+                        : `<a href="learning-player.html?id=${c.id}" class="c-btn primary"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>เรียนต่อ</a><a href="course-detail.html?id=${c.id}" class="c-btn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>รายละเอียด</a>`;
+
+                    ownedHTML += `<div class="c-card rv"><div class="c-thumb"><img src="${c.img}" alt="${c.title}" loading="lazy">${badge}<span class="c-cat">${c.cat}</span><div class="c-shine"></div></div><div class="c-body"><div class="c-meta"><span class="cat">${c.cat}</span><span>•</span><span>${c.hours} ชม.</span><span>•</span><span>${c.modules} Modules</span></div><h3 class="c-name">${c.title}</h3><div class="c-prog"><div class="c-prog-row"><span>${done ? 'เรียนจบ ' + (date || '') : 'Progress'}</span><span>${prog}%</span></div><div class="prog-bar"><div class="prog-fill" style="width:${prog}%;background:${gradColor}"></div></div></div><div class="c-actions">${btns}</div></div></div>`;
+                } else {
+                    if (filter === 'learning' || filter === 'done') return;
+                    browseCount++;
+                    browseHTML += `<div class="c-card rv" style="opacity:.7"><div class="c-thumb"><img src="${c.img}" alt="${c.title}" loading="lazy"><span class="c-badge price">฿${c.price.toLocaleString()}</span><span class="c-cat">${c.cat}</span><div class="c-shine"></div><div style="position:absolute;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:2"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div><div class="c-body"><div class="c-meta"><span class="cat">${c.cat}</span><span>•</span><span>${c.hours} ชม.</span></div><h3 class="c-name">${c.title}</h3><p style="font-size:.82rem;color:var(--tx3);margin-bottom:.75rem;flex:1">${c.desc.substring(0, 70)}...</p><a href="course-detail.html?id=${c.id}" class="c-btn primary" style="width:100%">ดูรายละเอียด</a></div></div>`;
+                }
+            });
+
+            let html = '';
+            if (filter !== 'browse' && ownedCount > 0) {
+                html += `<div class="sec-head rv"><h2>คอร์สของฉัน</h2><a href="courses.html">ดูทั้งหมด <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div><div class="grid">${ownedHTML}</div>`;
+            }
+            if (filter !== 'learning' && filter !== 'done' && browseCount > 0) {
+                html += `<div class="sec-head rv"><h2>คอร์สอื่นๆ ที่น่าสนใจ</h2></div><div class="grid">${browseHTML}</div>`;
+            }
+            if (ownedCount === 0 && browseCount === 0) {
+                html = `<div class="empty"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><p>ไม่มีคอร์สในหมวดนี้</p></div>`;
+            }
+            if (filter === 'all' && ownedCount === 0) {
+                html = `<div class="grid"><div class="add-card rv" onclick="location.href='courses.html'"><div class="add-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ac)" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div><h3>ยังไม่มีคอร์ส</h3><p>เลือกซื้อคอร์สเพื่อเริ่มเรียนรู้</p></div></div>` + (browseCount > 0 ? `<div class="sec-head rv"><h2>คอร์สที่น่าสนใจ</h2></div><div class="grid">${browseHTML}</div>` : '');
+            }
+            wrap.innerHTML = html;
+
+            // Reveal
+            const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } }), { threshold: .08, rootMargin: '0px 0px -30px 0px' });
+            document.querySelectorAll('.rv:not(.show)').forEach(el => obs.observe(el));
+        }
+
+        // Tab clicks
+        document.getElementById('mcTabs').addEventListener('click', e => {
+            const tab = e.target.closest('.mc-tab');
+            if (!tab) return;
+            document.querySelectorAll('.mc-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            filter = tab.dataset.f;
+            render();
+        });
+
+        render();
+
+        // Initial reveal
+        const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } }), { threshold: .08 });
+        document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+    </script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Consultation | Better Day Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── Hero ── */
+        .ct-hero{position:relative;padding:11rem 0 4rem;text-align:center;overflow:hidden}
+        .ct-hero::before{content:'';position:absolute;top:-25%;left:50%;transform:translateX(-50%);width:650px;height:650px;background:radial-gradient(circle,rgba(var(--particle-color),.07) 0%,transparent 70%);z-index:0}
+        .ct-hero .container{position:relative;z-index:1}
+        .ct-hero h1{font-size:clamp(2.2rem,5vw,3.2rem);letter-spacing:-.03em;margin-bottom:1rem}
+        .ct-hero>p,.ct-hero .container>p{color:var(--text-secondary);font-size:clamp(1rem,2vw,1.1rem);max-width:600px;margin:0 auto 2rem;line-height:1.7}
+
+        /* ── Stats mini ── */
+        .ct-stats{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;margin-bottom:1rem}
+        .ct-stat{text-align:center}
+        .ct-stat-num{font-family:'Prompt',sans-serif;font-size:1.5rem;font-weight:700}
+        .ct-stat-label{font-size:.75rem;color:var(--text-tertiary)}
+
+        /* ── Main Grid ── */
+        .ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;padding:3rem 0 5rem}
+
+        /* ── Info Side ── */
+        .ct-info{display:flex;flex-direction:column;gap:1.5rem}
+        .info-card{display:flex;align-items:flex-start;gap:1rem;background:var(--bg-card);border:1px solid var(--border-primary);border-radius:16px;padding:1.5rem;transition:all .35s ease}
+        .info-card:hover{border-color:var(--border-secondary);transform:translateY(-3px);box-shadow:var(--shadow-md)}
+        .info-icon{width:44px;height:44px;border-radius:14px;background:var(--accent-blue-subtle);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent-blue)}
+        .info-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+        .info-title{font-weight:600;font-size:.95rem;margin-bottom:.2rem}
+        .info-text{font-size:.88rem;color:var(--text-secondary);line-height:1.6}
+        .info-text a{color:var(--accent-blue);transition:opacity .2s}
+        .info-text a:hover{opacity:.7}
+
+        /* Social links */
+        .ct-socials{display:flex;gap:.75rem;margin-top:.5rem}
+        .ct-social{width:42px;height:42px;border-radius:12px;background:var(--bg-card);border:1px solid var(--border-primary);display:flex;align-items:center;justify-content:center;color:var(--text-tertiary);transition:all .3s ease}
+        .ct-social:hover{background:var(--accent-blue-subtle);color:var(--accent-blue);border-color:var(--accent-blue);transform:translateY(-2px)}
+        .ct-social svg{width:18px;height:18px;fill:currentColor}
+
+        /* Map placeholder */
+        .ct-map{border-radius:16px;overflow:hidden;border:1px solid var(--border-primary);height:200px;background:var(--bg-card);display:flex;align-items:center;justify-content:center;color:var(--text-tertiary);font-size:.9rem;transition:border-color .3s}
+        .ct-map:hover{border-color:var(--border-secondary)}
+        .ct-map iframe{width:100%;height:100%;border:0;filter:grayscale(.8) contrast(1.1);transition:filter .4s}
+        .ct-map:hover iframe{filter:grayscale(0)}
+
+        /* ── Form Side ── */
+        .ct-form-wrap{background:var(--bg-card);border:1px solid var(--border-primary);border-radius:20px;padding:2.5rem;transition:border-color .3s}
+        .ct-form-wrap:hover{border-color:var(--border-secondary)}
+        .ct-form-title{font-size:1.4rem;margin-bottom:.5rem}
+        .ct-form-sub{font-size:.9rem;color:var(--text-secondary);margin-bottom:2rem}
+
+        .f-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+        .f-group{margin-bottom:1.25rem}
+        .f-label{display:block;margin-bottom:.4rem;font-size:.82rem;font-weight:500;color:var(--text-secondary)}
+        .f-input{width:100%;padding:.8rem 1rem;background:rgba(var(--particle-color),.03);border:1px solid var(--border-primary);border-radius:12px;color:var(--text-primary);font-family:inherit;font-size:.92rem;outline:none;transition:all .3s cubic-bezier(.16,1,.3,1)}
+        .f-input::placeholder{color:var(--text-tertiary)}
+        .f-input:focus{border-color:var(--accent-blue);box-shadow:0 0 0 3px var(--accent-blue-glow)}
+        textarea.f-input{resize:vertical;min-height:110px}
+        select.f-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236e6e73' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
+        select.f-input option{background:#fff;color:#1a1a1a}
+
+        .f-submit{width:100%;padding:.9rem;background:var(--accent-blue);color:#fff;border:none;border-radius:14px;font-family:inherit;font-size:1rem;font-weight:600;cursor:pointer;transition:all .35s ease;box-shadow:0 0 20px var(--accent-blue-glow);position:relative;overflow:hidden}
+        .f-submit::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.1) 50%,transparent 60%);transform:translateX(-100%);transition:transform .6s}
+        .f-submit:hover{background:var(--accent-blue-hover);transform:translateY(-2px);box-shadow:0 0 30px var(--accent-blue-glow)}
+        .f-submit:hover::before{transform:translateX(100%)}
+        .f-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+        .f-note{text-align:center;font-size:.75rem;color:var(--text-tertiary);margin-top:1rem;line-height:1.5}
+
+        /* Success state */
+        .ct-success{display:none;text-align:center;padding:3rem 1rem}
+        .ct-success.show{display:block}
+        .ct-success-icon{width:72px;height:72px;border-radius:50%;background:rgba(48,209,88,.1);display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.5rem;animation:successPop .5s cubic-bezier(.34,1.56,.64,1)}
+        .ct-success-icon svg{width:32px;height:32px;stroke:#30d158;fill:none;stroke-width:2.5}
+        .ct-success h2{font-size:1.5rem;margin-bottom:.5rem}
+        .ct-success p{color:var(--text-secondary);font-size:.95rem;max-width:400px;margin:0 auto}
+        @keyframes successPop{from{transform:scale(0)}to{transform:scale(1)}}
+
+        /* Spinner */
+        .f-spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;margin-right:.5rem;vertical-align:middle}
+        @keyframes spin{to{transform:rotate(360deg)}}
+
+        /* ── Reveal ── */
+        .rv{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+        .rv.show{opacity:1;transform:translateY(0)}
+
+        @media(max-width:900px){
+            .ct-grid{grid-template-columns:1fr}
+            .f-row{grid-template-columns:1fr}
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="brand-logo">
+                <span class="logo-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="url(#ctLG)"/><path d="M8 14L12 18L20 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="ctLG" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#e63946"/><stop offset="1" stop-color="#c1121f"/></linearGradient></defs></svg></span>
+                BetterDay<span class="dot">.</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#portfolio">Portfolio</a></li>
+                <li class="nav-dropdown">
+                    <a href="courses.html">Courses <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-left:2px"><path d="M6 9l6 6 6-6"/></svg></a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-inner">
+                            <a href="course-detail.html?id=performance-marketing" class="dropdown-item"><span class="dropdown-dot" style="background:#e63946"></span><div><strong>Performance Marketing Mastery</strong><span>Marketing • 12 ชม. • ฿5,900</span></div></a>
+                            <a href="course-detail.html?id=brand-building" class="dropdown-item"><span class="dropdown-dot" style="background:#ff9f0a"></span><div><strong>Brand Building Blueprint</strong><span>Branding • 8 ชม. • ฿4,500</span></div></a>
+                            <a href="course-detail.html?id=ai-marketing" class="dropdown-item"><span class="dropdown-dot" style="background:#bf5af2"></span><div><strong>AI for Marketing Operations</strong><span>AI & Automation • 15 ชม. • ฿8,900</span></div></a>
+                            <a href="course-detail.html?id=short-video" class="dropdown-item"><span class="dropdown-dot" style="background:#30d158"></span><div><strong>Short-form Video for Business</strong><span>Video • 6 ชม. • ฿3,500</span></div></a>
+                            <a href="course-detail.html?id=strategic-planning" class="dropdown-item"><span class="dropdown-dot" style="background:#2997ff"></span><div><strong>Strategic Marketing Planning</strong><span>Strategy • 10 ชม. • ฿6,500</span></div></a>
+                            <a href="course-detail.html?id=email-marketing" class="dropdown-item"><span class="dropdown-dot" style="background:#ff6b6b"></span><div><strong>Email Marketing & Automation</strong><span>Marketing • 5 ชม. • ฿3,900</span></div></a>
+                            <div class="dropdown-footer"><a href="courses.html">ดูหลักสูตรทั้งหมด →</a></div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+            <div class="nav-actions" id="navActions">
+                <a href="login.html" class="btn btn-ghost">Log In</a>
+                <a href="register.html" class="btn btn-primary btn-glow">Sign Up</a>
+                <button class="theme-toggle" aria-label="Toggle theme"><svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+            </div>
+            <div class="mobile-nav-right">
+                <button class="theme-toggle mobile-theme-btn" aria-label="Toggle theme"><svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+                <button class="mobile-toggle" aria-label="Toggle Menu" id="mobToggle"><span class="hamburger"></span></button>
+            </div>
+        </div>
+    </nav>
+    <div class="mobile-menu-overlay" id="mobOverlay"><div class="mobile-menu-content"><ul class="mobile-nav-links"><li><a href="index.html">Home</a></li><li><a href="index.html#services">Services</a></li><li><a href="index.html#portfolio">Portfolio</a></li><li><a href="courses.html">Courses</a></li><li><a href="contact.html" class="active">Contact</a></li></ul><div class="mobile-nav-actions" id="mobActions"><a href="login.html" class="btn btn-outline btn-large" style="width:100%">Log In</a><a href="register.html" class="btn btn-primary btn-large" style="width:100%">Sign Up</a></div></div></div>
+
+    <!-- Hero -->
+    <header class="ct-hero">
+        <div class="container">
+            <p class="section-label reveal-up">CONTACT & CONSULTATION</p>
+            <h1 class="reveal-up">พร้อมยกระดับธุรกิจของคุณ?</h1>
+            <p class="reveal-up">จองคิวรับคำปรึกษาฟรี 30 นาที กับทีมผู้เชี่ยวชาญจาก Better Day Agency เพื่อวิเคราะห์ปัญหาและวางแผนกลยุทธ์เฉพาะแบรนด์ของคุณ</p>
+            <div class="ct-stats reveal-up">
+                <div class="ct-stat"><div class="ct-stat-num">24 ชม.</div><div class="ct-stat-label">ตอบกลับภายใน</div></div>
+                <div class="ct-stat"><div class="ct-stat-num">ฟรี</div><div class="ct-stat-label">ไม่มีค่าใช้จ่าย</div></div>
+                <div class="ct-stat"><div class="ct-stat-num">100+</div><div class="ct-stat-label">แบรนด์ที่ปรึกษา</div></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="ct-grid">
+            <!-- Info Side -->
+            <div class="ct-info">
+                <div class="info-card rv">
+                    <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                    <div>
+                        <div class="info-title">โทรศัพท์</div>
+                        <div class="info-text"><a href="tel:+6621234567">+66 2 123 4567</a><br>จันทร์ - ศุกร์ 09:00 - 18:00</div>
+                    </div>
+                </div>
+                <div class="info-card rv">
+                    <div class="info-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M22 7l-10 7L2 7"/></svg></div>
+                    <div>
+                        <div class="info-title">อีเมล</div>
+                        <div class="info-text"><a href="mailto:hello@betterday.agency">hello@betterday.agency</a><br>ตอบกลับภายใน 24 ชั่วโมง</div>
+                    </div>
+                </div>
+                <div class="info-card rv">
+                    <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                    <div>
+                        <div class="info-title">สำนักงาน</div>
+                        <div class="info-text">บริษัท เบทเทอร์ เดย์ เอเจ็นซี่ จำกัด<br>อาคาร XYZ ชั้น 12 ถนนสุขุมวิท<br>กรุงเทพมหานคร 10110</div>
+                    </div>
+                </div>
+                <div class="info-card rv">
+                    <div class="info-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                    <div>
+                        <div class="info-title">เวลาทำการ</div>
+                        <div class="info-text">จันทร์ - ศุกร์: 09:00 - 18:00<br>เสาร์: 10:00 - 15:00<br>อาทิตย์: ปิดทำการ</div>
+                    </div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="rv" style="margin-top:.5rem">
+                    <div style="font-size:.82rem;font-weight:500;color:var(--text-secondary);margin-bottom:.75rem">ติดตามเรา</div>
+                    <div class="ct-socials">
+                        <a href="#" class="ct-social" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                        <a href="#" class="ct-social" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.5"/></svg></a>
+                        <a href="#" class="ct-social" aria-label="LINE"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.82 2 10.5c0 2.95 1.95 5.55 4.87 7.17-.19.67-.68 2.42-.78 2.79-.13.48.17.47.37.34.15-.1 2.4-1.63 3.38-2.3.7.1 1.42.15 2.16.15 5.52 0 10-3.82 10-8.5S17.52 2 12 2z"/></svg></a>
+                        <a href="#" class="ct-social" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1 0-5.78c.27 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15.3 6.34 6.34 0 0 0 9.49 21.64a6.34 6.34 0 0 0 6.34-6.34V9.17a8.16 8.16 0 0 0 4.76 1.52v-3.4a4.85 4.85 0 0 1-1-.6z"/></svg></a>
+                    </div>
+                </div>
+
+                <!-- Map -->
+                <div class="ct-map rv">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.5!2d100.56!3d13.74!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDQ0JzI0LjAiTiAxMDDCsDMzJzM2LjAiRQ!5e0!3m2!1sth!2sth!4v1" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Office Location"></iframe>
+                </div>
+            </div>
+
+            <!-- Form Side -->
+            <div>
+                <div class="ct-form-wrap rv" id="formWrap">
+                    <h3 class="ct-form-title">จองคิวรับคำปรึกษาฟรี</h3>
+                    <p class="ct-form-sub">กรอกข้อมูลด้านล่าง ทีมเราจะติดต่อกลับภายใน 24 ชั่วโมง</p>
+
+                    <form id="contactForm">
+                        <div class="f-row">
+                            <div class="f-group">
+                                <label class="f-label" for="fname">ชื่อ *</label>
+                                <input type="text" id="fname" class="f-input" placeholder="ชื่อจริง" required>
+                            </div>
+                            <div class="f-group">
+                                <label class="f-label" for="lname">นามสกุล *</label>
+                                <input type="text" id="lname" class="f-input" placeholder="นามสกุล" required>
+                            </div>
+                        </div>
+                        <div class="f-group">
+                            <label class="f-label" for="company">ชื่อบริษัท / แบรนด์ *</label>
+                            <input type="text" id="company" class="f-input" placeholder="Better Day Agency" required>
+                        </div>
+                        <div class="f-row">
+                            <div class="f-group">
+                                <label class="f-label" for="email">อีเมลธุรกิจ *</label>
+                                <input type="email" id="email" class="f-input" placeholder="you@company.com" required>
+                            </div>
+                            <div class="f-group">
+                                <label class="f-label" for="phone">เบอร์โทรศัพท์</label>
+                                <input type="tel" id="phone" class="f-input" placeholder="08x-xxx-xxxx">
+                            </div>
+                        </div>
+                        <div class="f-group">
+                            <label class="f-label" for="topic">หัวข้อที่ต้องการปรึกษา *</label>
+                            <select id="topic" class="f-input" required>
+                                <option value="" disabled selected>เลือกหัวข้อ...</option>
+                                <option value="marketing">วางแผน Performance Marketing</option>
+                                <option value="branding">รีแบรนด์ / Brand Identity</option>
+                                <option value="strategy">Strategic Planning</option>
+                                <option value="social">Social Media Marketing</option>
+                                <option value="email">Email Marketing & Automation</option>
+                                <option value="training">Corporate Training / อบรมพนักงาน</option>
+                                <option value="elearning">สนใจหลักสูตร E-Learning</option>
+                                <option value="other">อื่นๆ</option>
+                            </select>
+                        </div>
+                        <div class="f-group">
+                            <label class="f-label" for="budget">งบประมาณโดยประมาณ</label>
+                            <select id="budget" class="f-input">
+                                <option value="" disabled selected>เลือกช่วงงบประมาณ...</option>
+                                <option value="<50k">ต่ำกว่า 50,000 บาท</option>
+                                <option value="50k-100k">50,000 - 100,000 บาท</option>
+                                <option value="100k-300k">100,000 - 300,000 บาท</option>
+                                <option value="300k+">มากกว่า 300,000 บาท</option>
+                                <option value="discuss">ต้องการปรึกษาก่อน</option>
+                            </select>
+                        </div>
+                        <div class="f-group">
+                            <label class="f-label" for="message">อธิบายปัญหาหรือสิ่งที่ต้องการ *</label>
+                            <textarea id="message" class="f-input" placeholder="บอกเราหน่อยว่าตอนนี้ธุรกิจของคุณติดปัญหาอะไรอยู่ หรือต้องการความช่วยเหลือด้านไหน..." required></textarea>
+                        </div>
+                        <button type="submit" class="f-submit" id="submitBtn">
+                            <span id="btnText">ส่งข้อมูลขอนัดหมาย</span>
+                        </button>
+                        <p class="f-note">ข้อมูลของคุณจะถูกเก็บเป็นความลับ เราจะไม่แชร์ข้อมูลกับบุคคลที่สาม</p>
+                    </form>
+                </div>
+
+                <!-- Success State -->
+                <div class="ct-success" id="successState">
+                    <div class="ct-success-icon">
+                        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <h2>ส่งข้อมูลสำเร็จ!</h2>
+                    <p>ขอบคุณที่สนใจ Better Day Agency ทีมเราจะติดต่อกลับภายใน 24 ชั่วโมง ผ่านอีเมลหรือเบอร์โทรที่คุณให้ไว้</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top:none;padding-top:0">
+                <p>&copy; 2026 Better Day Agency Co., Ltd. All rights reserved.</p>
+                <div class="legal-links"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Scroll reveal
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+        // Navbar scroll
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50), { passive: true });
+
+        // Mobile menu
+        const mt = document.getElementById('mobToggle'), mo = document.getElementById('mobOverlay');
+        if (mt && mo) {
+            mt.addEventListener('click', () => { mt.classList.toggle('active'); mo.classList.toggle('active'); document.body.style.overflow = mo.classList.contains('active') ? 'hidden' : ''; });
+            mo.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mt.classList.remove('active'); mo.classList.remove('active'); document.body.style.overflow = ''; }));
+        }
+
+        // Form submit with success state
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            btn.disabled = true;
+            btnText.innerHTML = '<span class="f-spinner"></span>กำลังส่งข้อมูล...';
+
+            setTimeout(() => {
+                document.getElementById('formWrap').style.display = 'none';
+                document.getElementById('successState').classList.add('show');
+            }, 1500);
+        });
+
+        // Shake on invalid
+        document.querySelectorAll('.f-input').forEach(input => {
+            input.addEventListener('invalid', () => {
+                input.style.animation = 'shake .4s ease';
+                setTimeout(() => input.style.animation = '', 400);
+            });
+        });
+    </script>
+    <style>@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}</style>
+</body>
+</html>

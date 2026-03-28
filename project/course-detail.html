@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Detail | Better Day Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .cd-hero{position:relative;padding:10rem 0 4rem;overflow:hidden}
+        .cd-hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(var(--particle-color),.07) 0%,transparent 70%);z-index:0}
+        .cd-hero .container{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start}
+        .cd-left{max-width:560px}
+        .cd-bc{font-size:.8rem;color:var(--text-tertiary);margin-bottom:1.5rem;display:flex;align-items:center;gap:.4rem}
+        .cd-bc a{color:var(--text-tertiary);transition:color .2s}.cd-bc a:hover{color:var(--accent-blue)}
+        .cd-badge{display:inline-flex;padding:.25rem .75rem;border-radius:980px;font-size:.7rem;font-weight:600;margin-bottom:1.25rem}
+        .cd-title{font-size:clamp(2rem,4vw,2.8rem);letter-spacing:-.03em;line-height:1.15;margin-bottom:1rem}
+        .cd-desc{color:var(--text-secondary);font-size:1.05rem;line-height:1.75;margin-bottom:2rem}
+        .cd-meta{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+        .cd-mi{display:flex;align-items:center;gap:.4rem;font-size:.85rem;color:var(--text-secondary)}
+        .cd-mi svg{width:16px;height:16px;stroke:var(--accent-blue);fill:none;stroke-width:2;flex-shrink:0}
+        .cd-rating{display:flex;align-items:center;gap:.5rem;font-size:.9rem;margin-bottom:2rem}
+        .cd-stars{color:#ff9f0a;letter-spacing:1px}
+        .cd-rating span{color:var(--text-tertiary)}
+        .cd-video{border-radius:20px;overflow:hidden;border:1px solid var(--border-primary);position:relative;aspect-ratio:16/9;background:#111;cursor:pointer;transition:all .4s ease}
+        .cd-video:hover{box-shadow:var(--shadow-lg)}.cd-video img{width:100%;height:100%;object-fit:cover;transition:transform .6s}.cd-video:hover img{transform:scale(1.03)}
+        .cd-vo{position:absolute;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.75rem}
+        .cd-play{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;transition:all .3s}.cd-video:hover .cd-play{transform:scale(1.1)}
+        .cd-buy{background:var(--bg-card);border:1px solid var(--border-primary);border-radius:20px;padding:2rem;margin-top:1.5rem;position:sticky;top:100px;transition:all .3s}
+        .cd-pr{display:flex;align-items:baseline;gap:.75rem;margin-bottom:.25rem}
+        .cd-price{font-family:'Prompt',sans-serif;font-size:2.2rem;font-weight:700}
+        .cd-old{font-size:1rem;color:var(--text-tertiary);text-decoration:line-through}
+        .cd-disc{font-size:.75rem;font-weight:600;color:#30d158;background:rgba(48,209,88,.1);padding:.15rem .5rem;border-radius:980px}
+        .cd-buy-btn{display:block;width:100%;padding:.9rem;border:none;border-radius:14px;font-family:inherit;font-size:1rem;font-weight:600;cursor:pointer;text-align:center;margin:1.25rem 0;transition:all .35s;position:relative;overflow:hidden}
+        .cd-buy-btn.buy{background:var(--accent-blue);color:#fff;box-shadow:0 0 20px var(--accent-blue-glow)}
+        .cd-buy-btn.buy:hover{background:var(--accent-blue-hover);transform:translateY(-2px)}
+        .cd-buy-btn.owned{background:rgba(48,209,88,.1);color:#30d158;border:1px solid rgba(48,209,88,.3);cursor:default}
+        .cd-perks{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+        .cd-perks li{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--text-secondary)}
+        .cd-perks li svg{width:16px;height:16px;stroke:#30d158;fill:none;stroke-width:2.5;flex-shrink:0}
+        .cd-sec{padding:4rem 0;border-top:1px solid var(--border-primary)}
+        .cd-sec-in{max-width:760px;margin:0 auto}
+        .cd-sec h2{font-size:1.6rem;margin-bottom:1.5rem}
+        .learn-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+        .learn-i{display:flex;align-items:flex-start;gap:.6rem;font-size:.9rem;color:var(--text-secondary);line-height:1.5}
+        .learn-i svg{width:18px;height:18px;stroke:var(--accent-blue);fill:none;stroke-width:2;flex-shrink:0;margin-top:2px}
+        .cur-item{border:1px solid var(--border-primary);border-radius:14px;margin-bottom:.75rem;overflow:hidden;background:var(--bg-card);transition:all .3s}
+        .cur-item:hover{border-color:var(--border-secondary)}
+        .cur-h{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 1.25rem;cursor:pointer;font-weight:500;font-size:.95rem;gap:1rem;user-select:none}
+        .cur-h svg{width:18px;height:18px;stroke:var(--text-tertiary);fill:none;stroke-width:2;flex-shrink:0;transition:transform .3s}
+        .cur-item.open .cur-h svg{transform:rotate(180deg)}
+        .cur-d{font-size:.8rem;color:var(--text-tertiary);white-space:nowrap}
+        .cur-b{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1);padding:0 1.25rem}
+        .cur-item.open .cur-b{max-height:400px;padding:0 1.25rem 1.25rem}
+        .cur-l{display:flex;align-items:center;gap:.5rem;padding:.4rem 0;font-size:.85rem;color:var(--text-secondary)}
+        .cur-l svg{width:14px;height:14px;stroke:var(--text-tertiary);fill:none;stroke-width:2}
+        .inst-card{display:flex;gap:1.5rem;align-items:center;background:var(--bg-card);border:1px solid var(--border-primary);border-radius:20px;padding:2rem;transition:all .3s}
+        .inst-card:hover{border-color:var(--border-secondary);box-shadow:var(--shadow-md)}
+        .inst-av{width:80px;height:80px;border-radius:50%;object-fit:cover;flex-shrink:0}
+        .rv{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}.rv.show{opacity:1;transform:translateY(0)}
+        @media(max-width:900px){.cd-hero .container{grid-template-columns:1fr}.cd-buy{position:static}.learn-grid{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <nav class="navbar"><div class="container nav-content">
+        <a href="index.html" class="brand-logo"><span class="logo-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="url(#cdLG)"/><path d="M8 14L12 18L20 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="cdLG" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#e63946"/><stop offset="1" stop-color="#c1121f"/></linearGradient></defs></svg></span>BetterDay<span class="dot">.</span></a>
+        <ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="courses.html">Courses</a></li></ul>
+        <div class="nav-actions" id="navActions"><a href="login.html" class="btn btn-ghost">Log In</a><a href="register.html" class="btn btn-primary btn-glow">Sign Up</a><button class="theme-toggle" aria-label="Toggle theme"><svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div>
+        <div class="mobile-nav-right"><button class="theme-toggle mobile-theme-btn" aria-label="Toggle theme"><svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button><button class="mobile-toggle" aria-label="Toggle Menu" id="mobToggle"><span class="hamburger"></span></button></div>
+    </div></nav>
+    <div class="mobile-menu-overlay" id="mobOverlay"><div class="mobile-menu-content"><ul class="mobile-nav-links"><li><a href="index.html">Home</a></li><li><a href="courses.html">Courses</a></li></ul><div class="mobile-nav-actions" id="mobActions"><a href="login.html" class="btn btn-outline btn-large" style="width:100%">Log In</a><a href="register.html" class="btn btn-primary btn-large" style="width:100%">Sign Up</a></div></div></div>
+
+    <div id="pageContent"></div>
+
+    <div class="wish-toast" id="wishToast"><svg viewBox="0 0 24 24" fill="#e63946" stroke="#e63946" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span id="wishToastMsg"></span></div>
+
+    <footer class="footer"><div class="container"><div class="footer-bottom" style="border-top:none;padding-top:0"><p>&copy; 2026 Better Day Agency Co., Ltd.</p><div class="legal-links"><a href="#">Privacy</a><a href="#">Terms</a></div></div></div></footer>
+
+    <script src="course-data.js"></script>
+    <script src="script.js"></script>
+    <script>
+        const id = new URLSearchParams(location.search).get('id') || 'brand-building';
+        const c = COURSES[id];
+        if (!c) { document.getElementById('pageContent').innerHTML = '<div style="text-align:center;padding:12rem 2rem"><h1>ไม่พบหลักสูตร</h1><a href="courses.html" style="color:var(--accent-blue)">กลับไปหน้าหลักสูตร</a></div>'; }
+        else {
+            document.title = c.title + ' | Better Day Agency';
+            const owned = isPurchased(c.id);
+            const discount = Math.round((1 - c.price / c.oldPrice) * 100);
+            const stars = '★'.repeat(Math.floor(c.rating)) + (c.rating % 1 >= 0.5 ? '½' : '');
+
+            let curHTML = '';
+            c.curriculum.forEach(m => {
+                curHTML += `<div class="cur-item rv"><div class="cur-h"><div><strong>${m.title}</strong></div><div style="display:flex;align-items:center;gap:.75rem"><span class="cur-d">${m.dur}</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div></div><div class="cur-b">${m.lessons.map(l => `<div class="cur-l"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>${l}</div>`).join('')}</div></div>`;
+            });
+
+            const buyBtnHTML = owned
+                ? `<div class="cd-buy-btn owned">✓ ซื้อแล้ว — เข้าเรียนได้เลย</div><a href="learning-player.html?id=${c.id}" style="display:block;text-align:center;margin-top:.75rem;color:var(--accent-blue);font-weight:600;font-size:.9rem">เข้าเรียนเลย →</a>`
+                : `<a href="checkout.html?id=${c.id}" class="cd-buy-btn buy">สมัครเข้าเรียน ฿${c.price.toLocaleString()}</a>
+                   <button onclick="handleDetailWish('${c.id}',this)" class="cd-buy-btn" style="background:transparent;border:1px solid var(--border-primary);color:var(--text-secondary);margin-top:.5rem;box-shadow:none;display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:.9rem">
+                       <svg width="16" height="16" viewBox="0 0 24 24" fill="${isWishlisted(c.id)?'#e63946':'none'}" stroke="${isWishlisted(c.id)?'#e63946':'currentColor'}" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                       ${isWishlisted(c.id) ? 'อยู่ในรายการโปรดแล้ว' : 'เพิ่มในรายการโปรด'}
+                   </button>`;
+
+            document.getElementById('pageContent').innerHTML = `
+            <header class="cd-hero"><div class="container">
+                <div class="cd-left">
+                    <div class="cd-bc rv"><a href="courses.html">Courses</a> / <span>${c.cat}</span></div>
+                    <div class="cd-badge rv" style="background:${c.color}20;color:${c.color};border:1px solid ${c.color}33">${c.level} • ${c.cat}</div>
+                    <h1 class="cd-title rv">${c.title}</h1>
+                    <p class="cd-desc rv">${c.desc}</p>
+                    <div class="cd-meta rv">
+                        <div class="cd-mi"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>${c.modules} Modules</div>
+                        <div class="cd-mi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${c.hours} ชั่วโมง</div>
+                        <div class="cd-mi"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${c.students.toLocaleString()}+ นักเรียน</div>
+                    </div>
+                    <div class="cd-rating rv"><span class="cd-stars">${stars}</span><strong>${c.rating}</strong><span>(${c.reviews} รีวิว)</span></div>
+                </div>
+                <div>
+                    <div class="cd-video rv"><img src="${c.img}" alt="${c.title}" loading="lazy"><div class="cd-vo"><div class="cd-play"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div><span style="font-size:.8rem;color:rgba(255,255,255,.7)">ดูตัวอย่าง</span></div></div>
+                    <div class="cd-buy rv">
+                        <div class="cd-pr"><span class="cd-price">฿${c.price.toLocaleString()}</span><span class="cd-old">฿${c.oldPrice.toLocaleString()}</span><span class="cd-disc">-${discount}%</span></div>
+                        ${buyBtnHTML}
+                        <ul class="cd-perks"><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>เข้าเรียนได้ตลอดชีพ</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>อัปเดตเนื้อหาฟรี</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>ใบรับรองเมื่อเรียนจบ</li><li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>รับประกันคืนเงิน 30 วัน</li></ul>
+                    </div>
+                </div>
+            </div></header>
+            <section class="cd-sec"><div class="container cd-sec-in"><h2 class="rv">เนื้อหาหลักสูตร — ${c.modules} Modules • ${c.hours} ชั่วโมง</h2>${curHTML}</div></section>
+            <section class="cd-sec"><div class="container cd-sec-in"><h2 class="rv">ผู้สอน</h2><div class="inst-card rv"><img class="inst-av" src="https://i.pravatar.cc/200?img=5" alt="Instructor" loading="lazy"><div><div style="font-size:1.1rem;font-weight:600;margin-bottom:.25rem">เจเจ จุฑามณี</div><div style="font-size:.85rem;color:var(--accent-blue);margin-bottom:.5rem">Founder — Better Day Agency</div><p style="font-size:.88rem;color:var(--text-secondary);line-height:1.65">ผู้เชี่ยวชาญด้าน Digital Marketing กว่า 8 ปี ทำงานร่วมกับแบรนด์ชั้นนำกว่า 100 แบรนด์ อาทิ AIS, Toyota, Samsung</p></div></div></div></section>`;
+
+            // Wishlist on detail page
+            window.handleDetailWish = function(id, btn) {
+                var added = toggleWishlist(id);
+                var svg = btn.querySelector('svg');
+                svg.setAttribute('fill', added ? '#e63946' : 'none');
+                svg.setAttribute('stroke', added ? '#e63946' : 'currentColor');
+                btn.childNodes[btn.childNodes.length - 1].textContent = added ? ' อยู่ในรายการโปรดแล้ว' : ' เพิ่มในรายการโปรด';
+                var toast = document.getElementById('wishToast');
+                var msg = document.getElementById('wishToastMsg');
+                msg.textContent = added ? c.title + ' เพิ่มในรายการโปรดแล้ว' : c.title + ' ลบออกจากรายการโปรดแล้ว';
+                toast.querySelector('svg').setAttribute('fill', added ? '#e63946' : 'none');
+                toast.classList.add('show');
+                setTimeout(function() { toast.classList.remove('show'); }, 2500);
+            };
+
+            // Accordion
+            document.querySelectorAll('.cur-h').forEach(h => h.addEventListener('click', () => h.parentElement.classList.toggle('open')));
+            // Reveal
+            const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } }), { threshold: .08, rootMargin: '0px 0px -40px 0px' });
+            document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+        }
+        // Navbar
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', scrollY > 50), { passive: true });
+        const mt = document.getElementById('mobToggle'), mo = document.getElementById('mobOverlay');
+        if (mt && mo) { mt.addEventListener('click', () => { mt.classList.toggle('active'); mo.classList.toggle('active'); document.body.style.overflow = mo.classList.contains('active') ? 'hidden' : ''; }); }
+    </script>
+</body>
+</html>

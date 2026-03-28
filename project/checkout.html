@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Better Day Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root,[data-theme="dark"]{
+            --bg:#0a0a0a;--bg2:#111;--card:rgba(20,20,20,.85);--card-h:rgba(28,28,28,.95);
+            --brd:rgba(255,255,255,.06);--brd2:rgba(255,255,255,.12);
+            --tx:#f5f5f7;--tx2:#b0b0b5;--tx3:#6e6e73;
+            --ac:#e63946;--ac-h:#c1121f;--ac-s:rgba(230,57,70,.1);--ac-g:rgba(230,57,70,.2);
+            --green:#30d158;--inp-bg:rgba(255,255,255,.04);--inp-focus:rgba(255,255,255,.07);
+            color-scheme:dark;
+        }
+        [data-theme="light"]{
+            --bg:#fff;--bg2:#f5f5f7;--card:rgba(255,255,255,.92);--card-h:rgba(250,248,248,1);
+            --brd:rgba(0,0,0,.06);--brd2:rgba(0,0,0,.1);
+            --tx:#1a1a1a;--tx2:#555;--tx3:#999;
+            --ac:#c1121f;--ac-h:#a00d1a;--ac-s:rgba(193,18,31,.06);--ac-g:rgba(193,18,31,.12);
+            --green:#2d8a4e;--inp-bg:rgba(0,0,0,.03);--inp-focus:rgba(0,0,0,.05);
+            color-scheme:light;
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter','Prompt',-apple-system,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
+        a{color:inherit;text-decoration:none}
+        h1,h2,h3,h4{font-family:'Prompt',sans-serif;font-weight:600;letter-spacing:-.02em}
+
+        /* ── Header ── */
+        .ck-header{padding:1.25rem 0;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:center;gap:.75rem;position:relative}
+        .ck-header a{font-family:'Prompt',sans-serif;font-size:1.3rem;font-weight:700;display:flex;align-items:center;gap:.5rem}
+        .ck-header .dot{color:var(--ac)}
+        .ck-secure{font-size:.75rem;color:var(--tx3);display:flex;align-items:center;gap:.35rem;position:absolute;right:2rem}
+        .ck-secure svg{width:14px;height:14px;stroke:var(--green);fill:none;stroke-width:2}
+        .theme-btn{position:absolute;left:2rem;width:36px;height:36px;border-radius:50%;border:1px solid var(--brd);background:var(--inp-bg);color:var(--tx2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s}
+        .theme-btn:hover{background:var(--ac-s);color:var(--ac);border-color:var(--ac)}
+        [data-theme="dark"] .ic-sun{display:block}[data-theme="dark"] .ic-moon{display:none}
+        [data-theme="light"] .ic-sun{display:none}[data-theme="light"] .ic-moon{display:block}
+
+        /* ── Steps ── */
+        .ck-steps{display:flex;justify-content:center;gap:2rem;padding:1.5rem 0;border-bottom:1px solid var(--brd)}
+        .ck-step{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--tx3)}
+        .ck-step.active{color:var(--ac);font-weight:600}
+        .ck-step.done{color:var(--green)}
+        .ck-step-num{width:24px;height:24px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700}
+        .ck-step.active .ck-step-num{background:var(--ac);color:#fff;border-color:var(--ac)}
+        .ck-step.done .ck-step-num{background:var(--green);color:#fff;border-color:var(--green)}
+        .ck-step-line{width:40px;height:1px;background:var(--brd)}
+
+        /* ── Layout ── */
+        .ck-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:3rem;max-width:1050px;margin:0 auto;padding:2.5rem clamp(1.25rem,4vw,3rem) 4rem}
+
+        /* ── Payment Tabs ── */
+        .pay-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1.5rem}
+        .pay-tab{padding:.9rem;border:1px solid var(--brd);border-radius:14px;text-align:center;cursor:pointer;transition:all .3s ease;font-size:.85rem;font-weight:500;color:var(--tx2);background:transparent}
+        .pay-tab:hover{border-color:var(--brd2);background:var(--inp-bg)}
+        .pay-tab.active{border-color:var(--ac);background:var(--ac-s);color:var(--ac)}
+        .pay-tab svg{display:block;margin:0 auto .4rem;width:24px;height:24px}
+        .pay-tab-label{font-size:.75rem;color:var(--tx3)}
+
+        /* ── Form Panel ── */
+        .pay-panel{background:var(--card);border:1px solid var(--brd);border-radius:20px;padding:2rem;transition:all .3s;animation:fadeIn .4s ease}
+        .pay-panel:hover{border-color:var(--brd2)}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+        .f-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+        .f-group{margin-bottom:1.25rem}
+        .f-label{display:block;margin-bottom:.4rem;font-size:.8rem;font-weight:500;color:var(--tx2)}
+        .f-input{width:100%;padding:.8rem 1rem;background:var(--inp-bg);border:1px solid var(--brd);border-radius:12px;color:var(--tx);font-family:inherit;font-size:.92rem;outline:none;transition:all .3s cubic-bezier(.16,1,.3,1)}
+        .f-input::placeholder{color:var(--tx3)}
+        .f-input:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac-g)}
+
+        /* Card visual */
+        .card-visual{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden;min-height:160px;display:flex;flex-direction:column;justify-content:space-between}
+        .card-visual::before{content:'';position:absolute;top:-30%;right:-20%;width:200px;height:200px;background:radial-gradient(circle,rgba(230,57,70,.15),transparent 70%);border-radius:50%}
+        [data-theme="light"] .card-visual{background:linear-gradient(135deg,#2c3e50,#3498db)}
+        .card-chip{width:36px;height:28px;background:linear-gradient(135deg,#d4a574,#c49a6c);border-radius:5px;margin-bottom:1rem}
+        .card-number{font-family:'Courier New',monospace;font-size:1.15rem;letter-spacing:2px;color:rgba(255,255,255,.9);margin-bottom:1rem}
+        .card-bottom{display:flex;justify-content:space-between;font-size:.75rem;color:rgba(255,255,255,.6)}
+        .card-bottom strong{color:rgba(255,255,255,.9);display:block;font-size:.85rem}
+
+        /* QR */
+        .qr-wrap{text-align:center;padding:1rem 0}
+        .qr-box{width:200px;height:200px;background:#fff;margin:0 auto 1.25rem;padding:12px;border-radius:14px}
+        .qr-box img{width:100%;height:100%}
+        .qr-amount{font-family:'Prompt',sans-serif;font-size:1.5rem;font-weight:700;color:var(--ac);margin-bottom:.5rem}
+        .qr-note{font-size:.85rem;color:var(--tx3);margin-bottom:1.5rem}
+
+        /* Transfer */
+        .bank-info{background:var(--inp-bg);border:1px solid var(--brd);border-radius:14px;padding:1.25rem;margin-bottom:1.5rem}
+        .bank-row{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;font-size:.88rem}
+        .bank-row span:first-child{color:var(--tx3)}
+        .bank-row strong{color:var(--tx)}
+        .copy-btn{background:var(--ac-s);color:var(--ac);border:none;padding:.25rem .6rem;border-radius:8px;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s}
+        .copy-btn:hover{background:var(--ac);color:#fff}
+
+        /* Submit */
+        .ck-submit{width:100%;padding:.9rem;background:var(--ac);color:#fff;border:none;border-radius:14px;font-family:inherit;font-size:1rem;font-weight:600;cursor:pointer;transition:all .35s ease;box-shadow:0 0 20px var(--ac-g);position:relative;overflow:hidden;margin-top:.5rem}
+        .ck-submit::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.1) 50%,transparent 60%);transform:translateX(-100%);transition:transform .6s}
+        .ck-submit:hover{background:var(--ac-h);transform:translateY(-2px);box-shadow:0 0 30px var(--ac-g)}
+        .ck-submit:hover::before{transform:translateX(100%)}
+        .ck-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+        .ck-spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;margin-right:.5rem;vertical-align:middle}
+        @keyframes spin{to{transform:rotate(360deg)}}
+
+        /* ── Summary ── */
+        .ck-summary{background:var(--card);border:1px solid var(--brd);border-radius:20px;padding:2rem;align-self:start;position:sticky;top:2rem;transition:border-color .3s}
+        .ck-summary:hover{border-color:var(--brd2)}
+        .sum-course{display:flex;gap:1rem;margin-bottom:1.5rem}
+        .sum-thumb{width:90px;height:60px;border-radius:10px;object-fit:cover;flex-shrink:0}
+        .sum-name{font-size:.95rem;font-weight:600;margin-bottom:.2rem}
+        .sum-access{font-size:.75rem;color:var(--tx3)}
+        .sum-divider{height:1px;background:var(--brd);margin:1.25rem 0}
+        .sum-row{display:flex;justify-content:space-between;font-size:.88rem;color:var(--tx2);margin-bottom:.6rem}
+        .sum-total{display:flex;justify-content:space-between;font-size:1.2rem;font-weight:700;margin-top:1rem}
+        .sum-total span:last-child{color:var(--ac)}
+
+        .sum-coupon{display:flex;gap:.5rem;margin-top:1.25rem}
+        .sum-coupon input{flex:1;padding:.6rem .8rem;background:var(--inp-bg);border:1px solid var(--brd);border-radius:10px;color:var(--tx);font-family:inherit;font-size:.85rem;outline:none;transition:border-color .3s}
+        .sum-coupon input:focus{border-color:var(--ac)}
+        .sum-coupon button{padding:.6rem 1rem;background:var(--ac-s);color:var(--ac);border:1px solid rgba(230,57,70,.2);border-radius:10px;font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .3s;white-space:nowrap}
+        .sum-coupon button:hover{background:var(--ac);color:#fff}
+
+        .sum-perks{margin-top:1.5rem;display:flex;flex-direction:column;gap:.5rem}
+        .sum-perk{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--tx3)}
+        .sum-perk svg{width:14px;height:14px;stroke:var(--green);fill:none;stroke-width:2.5;flex-shrink:0}
+
+        .sum-secure{display:flex;align-items:center;justify-content:center;gap:.4rem;font-size:.75rem;color:var(--tx3);margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--brd)}
+        .sum-secure svg{width:14px;height:14px;stroke:var(--green);fill:none;stroke-width:2}
+
+        /* ── Success ── */
+        .ck-success{display:none;text-align:center;padding:4rem 1rem;max-width:500px;margin:0 auto}
+        .ck-success.show{display:block}
+        .ck-success-icon{width:80px;height:80px;border-radius:50%;background:rgba(48,209,88,.1);display:inline-flex;align-items:center;justify-content:center;margin-bottom:1.5rem;animation:pop .5s cubic-bezier(.34,1.56,.64,1)}
+        .ck-success-icon svg{width:36px;height:36px;stroke:var(--green);fill:none;stroke-width:2.5}
+        @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+        .ck-success h2{font-size:1.6rem;margin-bottom:.5rem}
+        .ck-success p{color:var(--tx2);font-size:.95rem;margin-bottom:2rem;line-height:1.7}
+        .ck-success a{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 2rem;background:var(--ac);color:#fff;border-radius:980px;font-weight:600;transition:all .3s}
+        .ck-success a:hover{background:var(--ac-h);transform:translateY(-2px)}
+
+        /* ── Responsive ── */
+        @media(max-width:900px){
+            .ck-grid{grid-template-columns:1fr}
+            .ck-summary{position:static}
+            .ck-secure{display:none}
+            .theme-btn{left:1rem}
+            .pay-tabs{grid-template-columns:1fr}
+        }
+        @media(max-width:500px){.f-row{grid-template-columns:1fr}}
+
+        ::selection{background:var(--ac-g);color:#fff}
+        ::-webkit-scrollbar{width:6px}
+        ::-webkit-scrollbar-track{background:var(--bg)}
+        ::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:3px}
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="ck-header">
+        <button class="theme-btn" onclick="toggleTheme()">
+            <svg class="ic-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            <svg class="ic-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <a href="index.html">
+            <svg width="24" height="24" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="url(#ckLG)"/><path d="M8 14L12 18L20 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="ckLG" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#e63946"/><stop offset="1" stop-color="#c1121f"/></linearGradient></defs></svg>
+            BetterDay<span class="dot">.</span>
+        </a>
+        <div class="ck-secure"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Secure Checkout</div>
+    </header>
+
+    <!-- Steps -->
+    <div class="ck-steps">
+        <div class="ck-step done"><span class="ck-step-num">✓</span>เลือกคอร์ส</div>
+        <div class="ck-step-line"></div>
+        <div class="ck-step active"><span class="ck-step-num">2</span>ชำระเงิน</div>
+        <div class="ck-step-line"></div>
+        <div class="ck-step"><span class="ck-step-num">3</span>เริ่มเรียน</div>
+    </div>
+
+    <!-- Main -->
+    <div class="ck-grid" id="mainGrid">
+        <!-- Left: Payment -->
+        <div>
+            <h2 style="font-size:1.4rem;margin-bottom:1.5rem">เลือกช่องทางชำระเงิน</h2>
+
+            <div class="pay-tabs">
+                <div class="pay-tab active" data-tab="card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+                    บัตรเครดิต/เดบิต
+                </div>
+                <div class="pay-tab" data-tab="qr">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v3h-3M14 20h3M20 20h0"/></svg>
+                    QR PromptPay
+                </div>
+                <div class="pay-tab" data-tab="transfer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4h-4z"/></svg>
+                    โอนเงิน
+                </div>
+            </div>
+
+            <!-- Card Panel -->
+            <div class="pay-panel" id="panel-card">
+                <div class="card-visual">
+                    <div><div class="card-chip"></div><div class="card-number" id="cardDisplay">•••• •••• •••• ••••</div></div>
+                    <div class="card-bottom"><div><span>CARD HOLDER</span><strong id="nameDisplay">YOUR NAME</strong></div><div><span>EXPIRES</span><strong id="expDisplay">MM/YY</strong></div></div>
+                </div>
+                <form id="cardForm">
+                    <div class="f-group">
+                        <label class="f-label">ชื่อผู้ถือบัตร</label>
+                        <input type="text" class="f-input" id="cardName" placeholder="JOHN DOE" required>
+                    </div>
+                    <div class="f-group">
+                        <label class="f-label">หมายเลขบัตร</label>
+                        <input type="text" class="f-input" id="cardNum" placeholder="0000 0000 0000 0000" maxlength="19" required>
+                    </div>
+                    <div class="f-row">
+                        <div class="f-group"><label class="f-label">วันหมดอายุ</label><input type="text" class="f-input" id="cardExp" placeholder="MM/YY" maxlength="5" required></div>
+                        <div class="f-group"><label class="f-label">CVC</label><input type="text" class="f-input" placeholder="123" maxlength="4" required></div>
+                    </div>
+                    <button type="submit" class="ck-submit" id="cardBtn"><span id="cardBtnText">ชำระเงิน ฿4,500</span></button>
+                </form>
+            </div>
+
+            <!-- QR Panel -->
+            <div class="pay-panel" id="panel-qr" style="display:none">
+                <div class="qr-wrap">
+                    <p style="font-size:.9rem;color:var(--tx2);margin-bottom:1.25rem">สแกน QR Code ด้วย Mobile Banking ทุกธนาคาร</p>
+                    <div class="qr-box"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="QR Code"></div>
+                    <div class="qr-amount">฿4,500.00</div>
+                    <div class="qr-note">QR Code จะหมดอายุใน 15 นาที</div>
+                    <button class="ck-submit" id="qrBtn" onclick="completePayment(this)">ชำระเงินเรียบร้อยแล้ว</button>
+                </div>
+            </div>
+
+            <!-- Transfer Panel -->
+            <div class="pay-panel" id="panel-transfer" style="display:none">
+                <p style="font-size:.9rem;color:var(--tx2);margin-bottom:1.25rem">โอนเงินไปยังบัญชีด้านล่าง แล้วกดยืนยัน</p>
+                <div class="bank-info">
+                    <div class="bank-row"><span>ธนาคาร</span><strong>กสิกรไทย (KBANK)</strong></div>
+                    <div class="bank-row"><span>ชื่อบัญชี</span><strong>บจก. เบทเทอร์ เดย์ เอเจ็นซี่</strong></div>
+                    <div class="bank-row"><span>เลขบัญชี</span><div style="display:flex;align-items:center;gap:.5rem"><strong>123-4-56789-0</strong><button class="copy-btn" onclick="navigator.clipboard.writeText('1234567890');this.textContent='Copied!'">Copy</button></div></div>
+                    <div class="bank-row"><span>จำนวนเงิน</span><strong style="color:var(--ac)">฿4,500.00</strong></div>
+                </div>
+                <div class="f-group">
+                    <label class="f-label">อัปโหลดสลิปการโอน</label>
+                    <input type="file" class="f-input" accept="image/*" style="padding:.6rem">
+                </div>
+                <button class="ck-submit" id="transferBtn" onclick="completePayment(this)">ยืนยันการโอนเงิน</button>
+            </div>
+        </div>
+
+        <!-- Right: Summary -->
+        <div class="ck-summary">
+            <h3 style="font-size:1.15rem;margin-bottom:1.5rem">สรุปคำสั่งซื้อ</h3>
+            <div class="sum-course">
+                <img class="sum-thumb" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=400&q=80" alt="Course">
+                <div><div class="sum-name">Brand Building Blueprint</div><div class="sum-access">Lifetime Access • ไม่มีวันหมดอายุ</div></div>
+            </div>
+            <div class="sum-divider"></div>
+            <div class="sum-row"><span>ราคาเต็ม</span><span style="text-decoration:line-through">฿7,900</span></div>
+            <div class="sum-row"><span>ส่วนลด (43%)</span><span style="color:var(--green)">-฿3,400</span></div>
+            <div class="sum-row"><span>คูปอง</span><span>-฿0</span></div>
+            <div class="sum-divider"></div>
+            <div class="sum-total"><span>ยอดรวมสุทธิ</span><span>฿4,500</span></div>
+
+            <div class="sum-coupon">
+                <input type="text" placeholder="รหัสคูปอง">
+                <button>ใช้คูปอง</button>
+            </div>
+
+            <div class="sum-perks">
+                <div class="sum-perk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>เข้าเรียนได้ตลอดชีพ</div>
+                <div class="sum-perk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>อัปเดตเนื้อหาฟรี</div>
+                <div class="sum-perk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>ใบรับรองเมื่อเรียนจบ</div>
+                <div class="sum-perk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>รับประกันคืนเงิน 30 วัน</div>
+            </div>
+
+            <div class="sum-secure"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Secure 256-bit Encrypted Payment</div>
+        </div>
+    </div>
+
+    <!-- Success -->
+    <div class="ck-success" id="successState">
+        <div class="ck-success-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h2>ชำระเงินสำเร็จ!</h2>
+        <p>ขอบคุณที่เลือก Better Day Agency คุณสามารถเริ่มเรียน Brand Building Blueprint ได้ทันที</p>
+        <a href="dashboard.html">เข้าสู่ Dashboard →</a>
+    </div>
+
+    <script src="course-data.js"></script>
+    <script>
+        // Theme
+        const root = document.documentElement;
+        root.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');
+        function toggleTheme() {
+            const n = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', n);
+            localStorage.setItem('theme', n);
+        }
+
+        // Get course from URL
+        const courseId = new URLSearchParams(location.search).get('id') || 'brand-building';
+        const course = typeof COURSES !== 'undefined' ? COURSES[courseId] : null;
+
+        // Update summary with course data
+        if (course) {
+            document.querySelector('.sum-name').textContent = course.title;
+            document.querySelector('.sum-thumb').src = course.img;
+            const price = '฿' + course.price.toLocaleString();
+            const oldPrice = '฿' + course.oldPrice.toLocaleString();
+            const disc = Math.round((1 - course.price / course.oldPrice) * 100);
+            document.querySelectorAll('.sum-row')[0].querySelector('span:last-child').textContent = oldPrice;
+            document.querySelectorAll('.sum-row')[0].querySelector('span:last-child').style.textDecoration = 'line-through';
+            document.querySelectorAll('.sum-row')[1].querySelector('span:last-child').textContent = '-฿' + (course.oldPrice - course.price).toLocaleString();
+            document.querySelector('.sum-total span:last-child').textContent = price;
+            document.querySelector('.qr-amount').textContent = price + '.00';
+            document.getElementById('cardBtnText').textContent = 'ชำระเงิน ' + price;
+            document.querySelector('.bank-row:last-child strong').textContent = price + '.00';
+        }
+
+        // Payment tabs
+        document.querySelectorAll('.pay-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                document.querySelectorAll('.pay-panel').forEach(p => p.style.display = 'none');
+                document.getElementById('panel-' + tab.dataset.tab).style.display = 'block';
+            });
+        });
+
+        // Live card preview
+        document.getElementById('cardName').addEventListener('input', e => {
+            document.getElementById('nameDisplay').textContent = e.target.value.toUpperCase() || 'YOUR NAME';
+        });
+        document.getElementById('cardNum').addEventListener('input', e => {
+            let v = e.target.value.replace(/\D/g, '').substring(0, 16);
+            e.target.value = v.replace(/(.{4})/g, '$1 ').trim();
+            document.getElementById('cardDisplay').textContent = e.target.value || '•••• •••• •••• ••••';
+        });
+        document.getElementById('cardExp').addEventListener('input', e => {
+            let v = e.target.value.replace(/\D/g, '').substring(0, 4);
+            if (v.length > 2) v = v.substring(0, 2) + '/' + v.substring(2);
+            e.target.value = v;
+            document.getElementById('expDisplay').textContent = v || 'MM/YY';
+        });
+
+        // Card form submit
+        document.getElementById('cardForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            completePayment(document.getElementById('cardBtn'));
+        });
+
+        // Complete payment
+        function completePayment(btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<span class="ck-spinner"></span>กำลังดำเนินการ...';
+            setTimeout(() => {
+                if (course) purchaseCourse(course.id);
+                localStorage.setItem('isLoggedIn', 'true');
+                document.getElementById('mainGrid').style.display = 'none';
+                document.querySelector('.ck-steps').style.display = 'none';
+                document.getElementById('successState').classList.add('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

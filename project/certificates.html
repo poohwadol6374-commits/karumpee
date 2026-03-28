@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificates | Better Day Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root,[data-theme="dark"]{--bg:#0a0a0a;--bg2:#111;--card:rgba(20,20,20,.85);--card-h:rgba(30,30,30,.95);--nav-bg:rgba(10,10,10,.82);--brd:rgba(255,255,255,.06);--brd2:rgba(255,255,255,.1);--tx:#f5f5f7;--tx2:#b0b0b5;--tx3:#6e6e73;--ac:#e63946;--ac-h:#c1121f;--ac-s:rgba(230,57,70,.1);--ac-g:rgba(230,57,70,.2);--green:#30d158;--orange:#ff9f0a;color-scheme:dark}
+        [data-theme="light"]{--bg:#fff;--bg2:#f5f5f7;--card:rgba(255,255,255,.92);--card-h:rgba(250,248,248,1);--nav-bg:rgba(255,255,255,.82);--brd:rgba(0,0,0,.06);--brd2:rgba(0,0,0,.1);--tx:#1a1a1a;--tx2:#555;--tx3:#999;--ac:#c1121f;--ac-h:#a00d1a;--ac-s:rgba(193,18,31,.06);--ac-g:rgba(193,18,31,.12);--green:#2d8a4e;--orange:#d4700a;color-scheme:light}
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter','Prompt',-apple-system,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
+        a{color:inherit;text-decoration:none}
+        h1,h2,h3,h4{font-family:'Prompt',sans-serif;font-weight:600;letter-spacing:-.02em}
+        .wrap{display:flex;min-height:100vh}
+
+        /* Sidebar */
+        .side{width:260px;background:var(--bg);border-right:1px solid var(--brd);position:fixed;height:100vh;display:flex;flex-direction:column;padding:1.5rem;z-index:100;transition:background .4s}
+        .side-logo{font-family:'Prompt',sans-serif;font-size:1.3rem;font-weight:700;display:flex;align-items:center;gap:.5rem;margin-bottom:2rem;padding:.5rem}.side-logo .dot{color:var(--ac)}
+        .side-nav{display:flex;flex-direction:column;gap:.25rem;flex:1}
+        .side-nav a{padding:.7rem 1rem;border-radius:12px;color:var(--tx3);display:flex;align-items:center;gap:.75rem;font-size:.9rem;font-weight:500;transition:all .25s}
+        .side-nav a svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+        .side-nav a:hover{background:var(--ac-s);color:var(--tx)}
+        .side-nav a.active{background:var(--ac-s);color:var(--ac);font-weight:600}.side-nav a.active svg{stroke:var(--ac)}
+        .side-bottom{border-top:1px solid var(--brd);padding-top:1rem;display:flex;flex-direction:column;gap:.25rem}
+        .side-bottom a{padding:.7rem 1rem;border-radius:12px;color:var(--tx3);display:flex;align-items:center;gap:.75rem;font-size:.9rem;font-weight:500;transition:all .25s}
+        .side-bottom a svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+        .side-bottom a:hover{background:rgba(230,57,70,.06);color:var(--ac)}
+
+        .main{flex:1;margin-left:260px;padding:2rem 3rem 4rem;max-width:1100px}
+
+        /* Topbar */
+        .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2.5rem}
+        .topbar h1{font-size:1.8rem;margin-bottom:.25rem}.topbar p{color:var(--tx3);font-size:.95rem}
+        .topbar-right{display:flex;align-items:center;gap:.75rem}
+        .theme-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--brd);background:var(--card);color:var(--tx2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s}
+        .theme-btn:hover{background:var(--ac-s);color:var(--ac);border-color:var(--ac)}
+        [data-theme="dark"] .ic-sun{display:block}[data-theme="dark"] .ic-moon{display:none}
+        [data-theme="light"] .ic-sun{display:none}[data-theme="light"] .ic-moon{display:block}
+        .avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--brd)}
+
+        /* Stats */
+        .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+        .stat{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:1.25rem;transition:all .35s}
+        .stat:hover{border-color:var(--brd2);transform:translateY(-3px)}
+        .stat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:.75rem}
+        .stat-icon svg{width:18px;height:18px}.stat-icon.red{background:var(--ac-s);color:var(--ac)}.stat-icon.green{background:rgba(48,209,88,.1);color:var(--green)}.stat-icon.orange{background:rgba(255,159,10,.1);color:var(--orange)}
+        .stat-num{font-family:'Prompt',sans-serif;font-size:1.5rem;font-weight:700;margin-bottom:.1rem}.stat-label{font-size:.75rem;color:var(--tx3)}
+
+        /* Tabs */
+        .tabs{display:flex;gap:.5rem;margin-bottom:2rem;flex-wrap:wrap}
+        .tab{padding:.5rem 1.1rem;border-radius:980px;border:1px solid var(--brd);background:transparent;color:var(--tx3);font-family:inherit;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .3s}
+        .tab:hover{background:var(--ac-s);border-color:var(--ac);color:var(--ac)}
+        .tab.active{background:var(--ac);border-color:var(--ac);color:#fff}
+        .tab .cnt{font-size:.65rem;font-weight:700;margin-left:.3rem;opacity:.7}
+
+        /* Section head */
+        .sec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem}
+        .sec-head h2{font-size:1.2rem}
+
+        /* Grid */
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem;margin-bottom:2.5rem}
+
+        /* Cert Card */
+        .cert-card{background:var(--card);border:1px solid var(--brd);border-radius:20px;overflow:hidden;transition:all .4s cubic-bezier(.16,1,.3,1)}
+        .cert-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.2);border-color:var(--brd2)}
+        .cert-visual{position:relative;padding:2rem 1.5rem;min-height:200px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden}
+        .cert-visual *{position:relative;z-index:1}
+        .cert-corner{position:absolute;width:35px;height:35px;opacity:.2}
+        .cert-corner.tl{top:10px;left:10px;border-top:2px solid #fff;border-left:2px solid #fff}
+        .cert-corner.tr{top:10px;right:10px;border-top:2px solid #fff;border-right:2px solid #fff}
+        .cert-corner.bl{bottom:10px;left:10px;border-bottom:2px solid #fff;border-left:2px solid #fff}
+        .cert-corner.br{bottom:10px;right:10px;border-bottom:2px solid #fff;border-right:2px solid #fff}
+        .cert-seal{width:50px;height:50px;margin-bottom:.75rem;animation:sealF 3s ease-in-out infinite}
+        @keyframes sealF{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+        .cert-cname{font-family:'Prompt',sans-serif;font-size:1rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+        .cert-issuer{font-size:.7rem;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase}
+        .cert-locked{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.4rem;z-index:2}
+        .cert-locked svg{width:28px;height:28px;stroke:rgba(255,255,255,.5);fill:none;stroke-width:1.5}
+        .cert-locked span{font-size:.75rem;color:rgba(255,255,255,.6)}
+        .cert-body{padding:1.25rem}
+        .cert-date{font-size:.75rem;color:var(--tx3);margin-bottom:.4rem;display:flex;align-items:center;gap:.35rem}
+        .cert-date svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+        .cert-title{font-size:.92rem;font-weight:600;margin-bottom:.2rem}
+        .cert-cat{font-size:.75rem;color:var(--tx3);margin-bottom:1rem}
+        .cert-actions{display:flex;gap:.5rem}
+        .cert-btn{flex:1;padding:.55rem;border-radius:10px;font-family:inherit;font-size:.8rem;font-weight:600;text-align:center;cursor:pointer;transition:all .3s;border:1px solid var(--brd);background:transparent;color:var(--tx);text-decoration:none;display:block}
+        .cert-btn:hover{background:var(--ac-s);border-color:var(--ac);color:var(--ac)}
+        .cert-btn.primary{background:var(--ac);color:#fff;border-color:var(--ac)}.cert-btn.primary:hover{background:var(--ac-h)}
+        .cert-btn.green{border-color:rgba(48,209,88,.3);color:var(--green)}.cert-btn.green:hover{background:rgba(48,209,88,.08)}
+        .cert-card.locked{opacity:.6}.cert-card.locked:hover{transform:none;box-shadow:none}
+
+        /* Modal */
+        .modal{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.85);backdrop-filter:blur(20px);display:none;align-items:center;justify-content:center;padding:2rem;opacity:0;transition:opacity .4s}
+        .modal.show{display:flex;opacity:1}
+        .modal-inner{max-width:700px;width:100%;position:relative;animation:mIn .5s cubic-bezier(.34,1.56,.64,1)}
+        @keyframes mIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+        .modal-close{position:absolute;top:-3rem;right:0;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;opacity:.6;transition:opacity .2s}.modal-close:hover{opacity:1}
+        .cert-full{border-radius:16px;overflow:hidden;padding:3rem 2.5rem;text-align:center;position:relative;min-height:400px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+        .cert-full .cert-corner{width:50px;height:50px;opacity:.3}
+        .cf-logo{margin-bottom:1.5rem;opacity:.8}
+        .cf-title{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:1rem}
+        .cf-name{font-family:'Prompt',sans-serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+        .cf-line{width:60px;height:2px;background:rgba(255,255,255,.3);margin:0 auto 1rem}
+        .cf-course{font-size:1.1rem;color:rgba(255,255,255,.8);margin-bottom:.25rem;font-weight:600}
+        .cf-detail{font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:1.5rem}
+        .cf-date{font-size:.8rem;color:rgba(255,255,255,.4)}
+        .cf-id{font-size:.65rem;color:rgba(255,255,255,.25);margin-top:1rem;letter-spacing:1px}
+
+        .empty{text-align:center;padding:3rem 1rem;color:var(--tx3)}
+        .empty svg{width:48px;height:48px;stroke:var(--tx3);fill:none;stroke-width:1;opacity:.3;margin-bottom:.75rem}
+
+        .rv{opacity:0;transform:translateY(25px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}.rv.show{opacity:1;transform:translateY(0)}
+        .d1{transition-delay:.05s}.d2{transition-delay:.1s}.d3{transition-delay:.15s}
+
+        .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;z-index:200;padding:.75rem 1.25rem;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--brd);justify-content:space-between;align-items:center}
+        .mob-logo{font-family:'Prompt',sans-serif;font-size:1.2rem;font-weight:700}.mob-logo .dot{color:var(--ac)}
+        @media(max-width:900px){.side{display:none}.main{margin-left:0;padding:5rem 1.25rem 3rem}.mobile-bar{display:flex}.stats{grid-template-columns:1fr 1fr 1fr}}
+        @media(max-width:500px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}}
+        ::selection{background:var(--ac-g);color:#fff}::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:3px}
+    </style>
+</head>
+<body>
+    <div class="mobile-bar">
+        <span class="mob-logo">BetterDay<span class="dot">.</span></span>
+        <div style="display:flex;gap:.5rem;align-items:center">
+            <button class="theme-btn" onclick="toggleTheme()"><svg class="ic-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><svg class="ic-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+            <img class="avatar" src="https://i.pravatar.cc/100?img=11" alt="Profile">
+        </div>
+    </div>
+    <div class="wrap">
+        <aside class="side">
+            <a href="index.html" class="side-logo"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="url(#ceLG)"/><path d="M8 14L12 18L20 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="ceLG" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#e63946"/><stop offset="1" stop-color="#c1121f"/></linearGradient></defs></svg>BetterDay<span class="dot">.</span></a>
+            <nav class="side-nav">
+                <a href="dashboard.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+                <a href="my-courses.html"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>My Courses</a>
+                <a href="certificates.html" class="active"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Certificates</a>
+                <a href="history.html"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>Purchase History</a>
+                <a href="settings.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</a>
+            </nav>
+            <div class="side-bottom"><a href="#" onclick="localStorage.removeItem('isLoggedIn');location.href='index.html'"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</a></div>
+        </aside>
+
+        <main class="main">
+            <header class="topbar rv d1">
+                <div><h1>ใบรับรองของฉัน 🏆</h1><p>เรียนจบหลักสูตรเพื่อรับใบรับรองจาก Better Day Agency</p></div>
+                <div class="topbar-right">
+                    <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme"><svg class="ic-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><svg class="ic-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+                    <img class="avatar" src="https://i.pravatar.cc/100?img=11" alt="Profile">
+                </div>
+            </header>
+
+            <div class="stats" id="ceStats"></div>
+            <div class="tabs rv d2" id="ceTabs"></div>
+            <div id="ceContent"></div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal"><div class="modal-inner"><button class="modal-close" onclick="closeModal()">&times;</button><div id="modalContent"></div></div></div>
+
+    <script src="course-data.js"></script>
+    <script>
+        const root = document.documentElement;
+        root.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');
+        function toggleTheme(){const n=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',n);localStorage.setItem('theme',n)}
+
+        const THEMES = {
+            'performance-marketing':{bg:'linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)',ac:'#e63946'},
+            'brand-building':{bg:'linear-gradient(135deg,#2d1b00,#4a2c0a,#6b3a0a)',ac:'#ff9f0a'},
+            'ai-marketing':{bg:'linear-gradient(135deg,#1a0a2e,#2d1854,#4a1a8a)',ac:'#bf5af2'},
+            'short-video':{bg:'linear-gradient(135deg,#0a2e1a,#0f4a2a,#1a6b3a)',ac:'#30d158'},
+            'strategic-planning':{bg:'linear-gradient(135deg,#0a1a2e,#0f2a4a,#1a3a6b)',ac:'#2997ff'},
+            'email-marketing':{bg:'linear-gradient(135deg,#2e0a0a,#4a1a1a,#6b2a2a)',ac:'#ff6b6b'}
+        };
+
+        const purchased = getPurchased();
+        const completed = getCompleted();
+        let filter = 'all';
+
+        const inProg = purchased.filter(id => !completed.includes(id)).length;
+        document.getElementById('ceStats').innerHTML = `
+            <div class="stat rv d1"><div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div><div class="stat-num">${completed.length}</div><div class="stat-label">ใบรับรองที่ได้รับ</div></div>
+            <div class="stat rv d2"><div class="stat-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="stat-num">${inProg}</div><div class="stat-label">กำลังเรียน</div></div>
+            <div class="stat rv d3"><div class="stat-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><div class="stat-num">${Object.keys(COURSES).length}</div><div class="stat-label">หลักสูตรทั้งหมด</div></div>`;
+
+        const notOwned = Object.keys(COURSES).length - purchased.length;
+        document.getElementById('ceTabs').innerHTML = `
+            <button class="tab active" data-f="all">ทั้งหมด<span class="cnt">${Object.keys(COURSES).length}</span></button>
+            <button class="tab" data-f="earned">ได้รับแล้ว<span class="cnt">${completed.length}</span></button>
+            <button class="tab" data-f="progress">กำลังเรียน<span class="cnt">${inProg}</span></button>
+            <button class="tab" data-f="locked">ยังไม่ได้ซื้อ<span class="cnt">${notOwned}</span></button>`;
+
+        function render() {
+            const wrap = document.getElementById('ceContent');
+            let html = '', count = 0;
+
+            Object.values(COURSES).forEach((c, i) => {
+                const owned = purchased.includes(c.id);
+                const done = completed.includes(c.id);
+                const theme = THEMES[c.id];
+                const date = getCompletionDate(c.id);
+
+                if (filter === 'earned' && !done) return;
+                if (filter === 'progress' && (!owned || done)) return;
+                if (filter === 'locked' && owned) return;
+                count++;
+
+                if (done) {
+                    html += `<div class="cert-card rv"><div class="cert-visual" style="background:${theme.bg}"><div class="cert-corner tl"></div><div class="cert-corner tr"></div><div class="cert-corner bl"></div><div class="cert-corner br"></div><div class="cert-seal"><svg width="50" height="50" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="24" r="18" stroke="${theme.ac}" stroke-width="1.5" fill="${theme.ac}22"/><path d="M22 24l5 5 11-11" stroke="${theme.ac}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 40l6 12 6-12" stroke="${theme.ac}" stroke-width="1.5" fill="${theme.ac}11"/><path d="M36 40l-6 12-6-12" stroke="${theme.ac}" stroke-width="1.5" fill="${theme.ac}11"/></svg></div><div class="cert-cname">${c.title}</div><div class="cert-issuer">Better Day Agency</div></div><div class="cert-body"><div class="cert-date"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${date||'เรียนจบแล้ว'}</div><div class="cert-title">${c.title}</div><div class="cert-cat">${c.cat} • ${c.hours} ชั่วโมง</div><div class="cert-actions"><button class="cert-btn primary" onclick="viewCert('${c.id}')">ดูใบรับรอง</button><button class="cert-btn" onclick="viewCert('${c.id}')">ดาวน์โหลด</button></div></div></div>`;
+                } else if (owned) {
+                    html += `<div class="cert-card rv"><div class="cert-visual" style="background:${theme.bg}"><div class="cert-corner tl"></div><div class="cert-corner tr"></div><div class="cert-corner bl"></div><div class="cert-corner br"></div><div style="text-align:center"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><div class="cert-cname" style="margin-top:.6rem;opacity:.7">${c.title}</div><div class="cert-issuer">กำลังเรียน...</div></div></div><div class="cert-body"><div class="cert-date"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>กำลังเรียน</div><div class="cert-title">${c.title}</div><div class="cert-cat">${c.cat} • เรียนให้จบเพื่อรับใบรับรอง</div><div class="cert-actions"><a href="learning-player.html?id=${c.id}" class="cert-btn primary">เรียนต่อ →</a><button class="cert-btn" onclick="markDone('${c.id}')">✓ จบคอร์ส (Demo)</button></div></div></div>`;
+                } else {
+                    html += `<div class="cert-card locked rv"><div class="cert-visual" style="background:${theme.bg}"><div class="cert-locked"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>ยังไม่ได้ซื้อ</span></div><div class="cert-corner tl"></div><div class="cert-corner tr"></div><div class="cert-corner bl"></div><div class="cert-corner br"></div><div class="cert-cname" style="opacity:.3">${c.title}</div></div><div class="cert-body"><div class="cert-title">${c.title}</div><div class="cert-cat">${c.cat} • ฿${c.price.toLocaleString()}</div><div class="cert-actions"><a href="course-detail.html?id=${c.id}" class="cert-btn">ดูรายละเอียดคอร์ส</a></div></div></div>`;
+                }
+            });
+
+            if (count === 0) html = `<div class="empty"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg><p>ไม่มีใบรับรองในหมวดนี้</p></div>`;
+            wrap.innerHTML = `<div class="grid">${html}</div>`;
+
+            const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } }), { threshold: .08 });
+            document.querySelectorAll('.rv:not(.show)').forEach(el => obs.observe(el));
+        }
+
+        function markDone(id) { completeCourse(id); setCompletionDate(id); location.reload(); }
+
+        function viewCert(id) {
+            const c = COURSES[id], theme = THEMES[id], date = getCompletionDate(id) || 'N/A';
+            const cid = 'BD-' + id.substring(0,4).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
+            document.getElementById('modalContent').innerHTML = `<div class="cert-full" style="background:${theme.bg}"><div class="cert-corner tl"></div><div class="cert-corner tr"></div><div class="cert-corner bl"></div><div class="cert-corner br"></div><div class="cf-logo"><svg width="40" height="40" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="${theme.ac}"/><path d="M8 14L12 18L20 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="cf-title">Certificate of Completion</div><div class="cf-name">User</div><div class="cf-line" style="background:${theme.ac}66"></div><div class="cf-course">${c.title}</div><div class="cf-detail">${c.modules} Modules • ${c.hours} ชั่วโมง • ${c.cat}</div><div class="cf-date">Issued on ${date} — Better Day Agency</div><div class="cf-id">Certificate ID: ${cid}</div></div>`;
+            document.getElementById('modal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() { document.getElementById('modal').classList.remove('show'); document.body.style.overflow = ''; }
+        document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+
+        document.getElementById('ceTabs').addEventListener('click', e => {
+            const tab = e.target.closest('.tab');
+            if (!tab) return;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            filter = tab.dataset.f;
+            render();
+        });
+
+        render();
+        const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } }), { threshold: .08 });
+        document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+    </script>
+</body>
+</html>

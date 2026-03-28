@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Better Day Agency | Digital Marketing & Consulting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="brand-logo">
+                <span class="logo-icon">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                        <rect width="28" height="28" rx="8" fill="url(#logoGrad)"/>
+                        <path d="M8 14L12 18L20 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#e63946"/><stop offset="1" stop-color="#c1121f"/></linearGradient></defs>
+                    </svg>
+                </span>
+                BetterDay<span class="dot">.</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li class="nav-dropdown">
+                    <a href="courses.html">Courses <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-left:2px"><path d="M6 9l6 6 6-6"/></svg></a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-inner">
+                            <a href="course-detail.html?id=performance-marketing" class="dropdown-item">
+                                <span class="dropdown-dot" style="background:#e63946"></span>
+                                <div><strong>Performance Marketing Mastery</strong><span>Marketing • 12 ชม. • ฿5,900</span></div>
+                            </a>
+                            <a href="course-detail.html?id=brand-building" class="dropdown-item">
+                                <span class="dropdown-dot" style="background:#ff9f0a"></span>
+                                <div><strong>Brand Building Blueprint</strong><span>Branding • 8 ชม. • ฿4,500</span></div>
+                            </a>
+                            <a href="course-detail.html?id=ai-marketing" class="dropdown-item">
+                                <span class="dropdown-dot" style="background:#bf5af2"></span>
+                                <div><strong>AI for Marketing Operations</strong><span>AI & Automation • 15 ชม. • ฿8,900</span></div>
+                            </a>
+                            <a href="course-detail.html?id=short-video" class="dropdown-item">
+                                <span class="dropdown-dot" style="background:#30d158"></span>
+                                <div><strong>Short-form Video for Business</strong><span>Video • 6 ชม. • ฿3,500</span></div>
+                            </a>
+                            <a href="course-detail.html?id=strategic-planning" class="dropdown-item">
+                                <span class="dropdown-dot" style="background:#2997ff"></span>
+                                <div><strong>Strategic Marketing Planning</strong><span>Strategy • 10 ชม. • ฿6,500</span></div>
+                            </a>
+                            <a href="course-detail.html?id=email-marketing" class="dropdown-item">
+                                <span class="dropdown-dot" style="background:#ff6b6b"></span>
+                                <div><strong>Email Marketing & Automation</strong><span>Marketing • 5 ชม. • ฿3,900</span></div>
+                            </a>
+                            <div class="dropdown-footer">
+                                <a href="courses.html">ดูหลักสูตรทั้งหมด →</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-actions" id="navActions">
+                <a href="login.html" class="btn btn-ghost">Log In</a>
+                <a href="register.html" class="btn btn-primary btn-glow">Sign Up</a>
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
+            </div>
+            <div class="mobile-nav-right">
+                <button class="theme-toggle mobile-theme-btn" aria-label="Toggle theme">
+                    <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
+                <button class="mobile-toggle" aria-label="Toggle Menu">
+                    <span class="hamburger"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay">
+        <div class="mobile-menu-content">
+            <ul class="mobile-nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="mobile-nav-actions" id="mobActions">
+                <a href="login.html" class="btn btn-outline btn-large" style="width:100%">Log In</a>
+                <a href="register.html" class="btn btn-primary btn-large" style="width:100%">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         HERO — Founder-led, bold statement
+         ============================================================ -->
+    <header class="hero">
+        <div class="hero-bg-glow"></div>
+        <div class="hero-bg-glow-2"></div>
+        <div class="hero-grid-bg" aria-hidden="true"></div>
+        <div class="container hero-content">
+            <div class="reveal-up">
+                <div class="label-badge">
+                    <span class="badge-dot"></span>
+                    <span class="badge-new">8 ปี</span>
+                    ประสบการณ์ขับเคลื่อนผลลัพธ์ที่เหนือกว่า
+                </div>
+            </div>
+            <h1 class="hero-title reveal-up delay-1">
+                Better Brand.<br>
+                Better Marketing.<br>
+                <span class="gradient-text">Better Business.</span>
+            </h1>
+            <p class="hero-subtitle reveal-up delay-2">
+                บริษัท เบทเทอร์ เดย์ เอเจ็นซี่ จำกัด — Digital Marketing Agency ครบวงจร
+                รับทำการตลาดออนไลน์ วางกลยุทธ์แบรนด์ และที่ปรึกษาธุรกิจ โดย เจเจ จุฑามณี (Jutamanee Manissararas)
+            </p>
+            <div class="hero-cta reveal-up delay-3">
+                <a href="contact.html" class="btn btn-primary btn-large btn-glow btn-magnetic">
+                    <span>ปรึกษาฟรี</span>
+                    <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="courses.html" class="btn btn-outline btn-large btn-magnetic">
+                    <span>ดูหลักสูตรทั้งหมด</span>
+                </a>
+            </div>
+            <div class="trust-indicators reveal-up delay-4">
+                <div class="trust-logos-inline">
+                    <span>AIS</span><span>Toyota</span><span>Samsung</span><span>Eucerin</span><span>HomePro</span>
+                </div>
+                <p>ไว้วางใจจากแบรนด์ชั้นนำกว่า <strong class="counter" data-target="100">0</strong>+ แบรนด์</p>
+            </div>
+        </div>
+        <div class="scroll-indicator" aria-hidden="true"><div class="scroll-line"></div></div>
+    </header>
+
+    <!-- ============================================================
+         TRUSTED BY — Client Logos Marquee
+         ============================================================ -->
+    <section class="trusted-by">
+        <div class="container">
+            <p class="section-label text-center reveal-up">TRUSTED BY LEADING BRANDS</p>
+        </div>
+        <div class="logos-marquee">
+            <div class="logos-track">
+                <div class="logo-item">AIS</div>
+                <div class="logo-item">TOYOTA</div>
+                <div class="logo-item">Eucerin</div>
+                <div class="logo-item">Index Livingmall</div>
+                <div class="logo-item">HomePro</div>
+                <div class="logo-item">SuperRich</div>
+                <div class="logo-item">DON DON DONKI</div>
+                <div class="logo-item">Levi's</div>
+                <div class="logo-item">Kiehl's</div>
+                <div class="logo-item">NaRaYa</div>
+                <div class="logo-item">BLACKMORES</div>
+                <div class="logo-item">OMRON</div>
+                <div class="logo-item">SAMSUNG</div>
+                <div class="logo-item">BMW</div>
+                <div class="logo-item">ISUZU</div>
+                <div class="logo-item">AIS</div>
+                <div class="logo-item">TOYOTA</div>
+                <div class="logo-item">Eucerin</div>
+                <div class="logo-item">Index Livingmall</div>
+                <div class="logo-item">HomePro</div>
+                <div class="logo-item">SuperRich</div>
+                <div class="logo-item">DON DON DONKI</div>
+                <div class="logo-item">Levi's</div>
+                <div class="logo-item">Kiehl's</div>
+                <div class="logo-item">NaRaYa</div>
+                <div class="logo-item">BLACKMORES</div>
+                <div class="logo-item">OMRON</div>
+                <div class="logo-item">SAMSUNG</div>
+                <div class="logo-item">BMW</div>
+                <div class="logo-item">ISUZU</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         STATS — Key Numbers
+         ============================================================ -->
+    <section class="section stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card reveal-up">
+                    <span class="stat-number counter" data-target="8">0</span><span class="stat-suffix">ปี+</span>
+                    <span class="stat-label">ประสบการณ์ในวงการ</span>
+                </div>
+                <div class="stat-card reveal-up delay-1">
+                    <span class="stat-number counter" data-target="100">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">แบรนด์ที่ไว้วางใจ</span>
+                </div>
+                <div class="stat-card reveal-up delay-2">
+                    <span class="stat-number counter" data-target="20">0</span><span class="stat-suffix">ล้าน</span>
+                    <span class="stat-label">ยอดขายที่สร้างให้ลูกค้า</span>
+                </div>
+                <div class="stat-card reveal-up delay-3">
+                    <span class="stat-number counter" data-target="98">0</span><span class="stat-suffix">%</span>
+                    <span class="stat-label">ความพึงพอใจ</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SERVICES — What We Do
+         ============================================================ -->
+    <section class="section services-section" id="services">
+        <div class="container">
+            <div class="text-center reveal-up">
+                <p class="section-label">OUR SERVICES</p>
+                <h2 class="section-title">เรารับทำอะไรบ้าง</h2>
+                <p class="section-subtitle" style="margin: 0 auto;">Better Brand, Better Marketing, Better Business — บริการครบวงจรเพื่อธุรกิจของคุณ</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal-up">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <h3>Consult</h3>
+                    <p>ที่ปรึกษาด้านการตลาดและธุรกิจ วิเคราะห์ปัญหา วางแผนกลยุทธ์เฉพาะแบรนด์ของคุณ</p>
+                </div>
+                <div class="feature-card reveal-up delay-1">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <h3>Branding</h3>
+                    <p>ขุด DNA แบรนด์ สร้างตัวตนที่แข็งแกร่ง ออกแบบ Visual Identity ให้คนจำและยอมจ่าย</p>
+                </div>
+                <div class="feature-card reveal-up delay-2">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                    <h3>Online Marketing</h3>
+                    <p>ยิงโฆษณา Facebook, TikTok, Google Ads, Content Marketing, Email Marketing ครบจบในที่เดียว</p>
+                </div>
+                <div class="feature-card reveal-up delay-3">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                    </div>
+                    <h3>Strategic Planning</h3>
+                    <p>วางแผนกลยุทธ์ระยะยาว Research Winning Zone วิเคราะห์คู่แข่ง หาจุดแข็งของแบรนด์</p>
+                </div>
+                <div class="feature-card reveal-up delay-1">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                    </div>
+                    <h3>Media Optimization</h3>
+                    <p>ปรับแต่งสื่อโฆษณาให้ได้ผลลัพธ์สูงสุด ลด Cost ต่อ Lead เพิ่ม Conversion Rate</p>
+                </div>
+                <div class="feature-card reveal-up delay-2">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    </div>
+                    <h3>E-Learning</h3>
+                    <p>หลักสูตรออนไลน์สอนการตลาดดิจิทัล เรียนรู้จากประสบการณ์จริง นำไปใช้ได้ทันที</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         PORTFOLIO / CASE STUDIES
+         ============================================================ -->
+    <section class="section portfolio-section" id="portfolio">
+        <div class="container">
+            <div class="text-center reveal-up">
+                <p class="section-label">CASE STUDIES</p>
+                <h2 class="section-title">ทำไมต้องเรา</h2>
+                <p class="section-subtitle" style="margin: 0 auto;">ผลงานจริงที่พิสูจน์ได้ จากแบรนด์ชั้นนำที่ไว้วางใจ Better Day Agency</p>
+            </div>
+            <div class="cases-grid">
+                <div class="case-card reveal-up">
+                    <div class="case-number">01</div>
+                    <div class="case-highlight">สร้างยอดขาย <span class="gradient-text">20 ล้าน</span></div>
+                    <h3>จากออนไลน์สู่ยอดขายจริง</h3>
+                    <p>สร้างยอดขาย 20 ล้านบาทใน 1 ปี บนแพลตฟอร์มออนไลน์ ด้วยการ Research Winning Zone, สร้างแบรนด์เพิ่มความน่าเชื่อถือ, Ads Management และสร้าง Content ขึ้นใหม่</p>
+                    <div class="case-tags">
+                        <span>Ads Management</span><span>Content</span><span>Branding</span>
+                    </div>
+                </div>
+                <div class="case-card reveal-up delay-1">
+                    <div class="case-number">02</div>
+                    <div class="case-highlight">เพิ่ม <span class="gradient-text">Engagement</span></div>
+                    <h3>Samsung — Email Marketing</h3>
+                    <p>เพิ่มยอด Engagement, Click Rate และยอดขาย ผ่านการทำ Email Marketing (EDM) และ Push Notification ผลิต EDM และ PN ให้ตรงกลุ่มเป้าหมาย ติด Label เพื่อดู Click Rate และ Open Rate</p>
+                    <div class="case-tags">
+                        <span>Email Marketing</span><span>Push Notification</span><span>Analytics</span>
+                    </div>
+                </div>
+                <div class="case-card reveal-up delay-2">
+                    <div class="case-number">03</div>
+                    <div class="case-highlight">จาก <span class="gradient-text">ออฟไลน์สู่ออนไลน์</span></div>
+                    <h3>แบรนด์ 80 ปี สู่ยุคดิจิทัล</h3>
+                    <p>ทำการตลาดออนไลน์ด้วยกลยุทธ์ที่ตอบโจทย์คนรุ่นใหม่ ให้แบรนด์ที่อยู่มานานกว่า 80 ปี Research Winning Zone ของลูกค้า ปรับภาพจำใหม่โดยใช้คลิก Visual Marketing</p>
+                    <div class="case-tags">
+                        <span>Visual Marketing</span><span>Rebranding</span><span>Research</span>
+                    </div>
+                </div>
+                <div class="case-card reveal-up delay-3">
+                    <div class="case-number">04</div>
+                    <div class="case-highlight">ขุด <span class="gradient-text">DNA</span> แบรนด์</div>
+                    <h3>Branding จากรากฐาน</h3>
+                    <p>ค้นหาตัวตนที่แท้จริงของแบรนด์ ขุด DNA เพื่อสร้าง Brand Identity ที่แข็งแกร่ง ออกแบบ Visual, Tone of Voice และ Brand Story ที่สื่อสารได้ตรงกลุ่มเป้าหมาย</p>
+                    <div class="case-tags">
+                        <span>Brand DNA</span><span>Identity</span><span>Strategy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         COURSES — Popular Courses
+         ============================================================ -->
+    <section class="section popular-courses">
+        <div class="container">
+            <div class="section-header">
+                <div class="reveal-up">
+                    <p class="section-label">E-LEARNING</p>
+                    <h2 class="section-title">หลักสูตรยอดนิยม</h2>
+                    <p class="section-subtitle">เรียนรู้ทักษะการตลาดดิจิทัลจากประสบการณ์จริง นำไปใช้ได้ตั้งแต่วันแรก</p>
+                </div>
+                <a href="courses.html" class="btn btn-ghost hide-mobile reveal-up">ดูทั้งหมด
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+            <div class="courses-grid">
+                <article class="course-card reveal-up">
+                    <div class="course-thumb" style="background: url('https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=800&q=80') center/cover;">
+                        <div class="badge-level beginner">Beginner</div>
+                        <div class="thumb-overlay"><div class="play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div></div>
+                        <div class="card-shine" aria-hidden="true"></div>
+                    </div>
+                    <div class="course-content">
+                        <div class="course-meta"><span class="meta-tag">Marketing</span><span class="meta-divider">•</span><span>12 Hours</span></div>
+                        <h3 class="course-title">Performance Marketing Mastery 2026</h3>
+                        <p class="course-desc">เจาะลึกการยิงโฆษณา Facebook, TikTok และ Google พร้อมการวิเคราะห์ Data แบบมืออาชีพ</p>
+                        <div class="course-footer"><span class="price">฿5,900</span><a href="course-detail.html" class="btn btn-sm btn-primary">ดูรายละเอียด</a></div>
+                    </div>
+                </article>
+                <article class="course-card reveal-up delay-1">
+                    <div class="course-thumb" style="background: url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80') center/cover;">
+                        <div class="badge-level intermediate">Intermediate</div>
+                        <div class="thumb-overlay"><div class="play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div></div>
+                        <div class="card-shine" aria-hidden="true"></div>
+                    </div>
+                    <div class="course-content">
+                        <div class="course-meta"><span class="meta-tag">Branding</span><span class="meta-divider">•</span><span>8 Hours</span></div>
+                        <h3 class="course-title">Brand Building Blueprint</h3>
+                        <p class="course-desc">สร้างแบรนด์ให้คนจำและยอมจ่ายแพงขึ้น ด้วยกลยุทธ์จิตวิทยาและการออกแบบตัวตน</p>
+                        <div class="course-footer"><span class="price">฿4,500</span><a href="course-detail.html" class="btn btn-sm btn-primary">ดูรายละเอียด</a></div>
+                    </div>
+                </article>
+                <article class="course-card reveal-up delay-2">
+                    <div class="course-thumb" style="background: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80') center/cover;">
+                        <div class="badge-level pro">Professional</div>
+                        <div class="thumb-overlay"><div class="play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div></div>
+                        <div class="card-shine" aria-hidden="true"></div>
+                    </div>
+                    <div class="course-content">
+                        <div class="course-meta"><span class="meta-tag">AI & Automation</span><span class="meta-divider">•</span><span>15 Hours</span></div>
+                        <h3 class="course-title">AI for Marketing Operations</h3>
+                        <p class="course-desc">ใช้ AI ช่วยเขียนคอนเทนต์ วิเคราะห์คู่แข่ง และสร้างระบบ Automation เต็มรูปแบบ</p>
+                        <div class="course-footer"><span class="price">฿8,900</span><a href="course-detail.html" class="btn btn-sm btn-primary">ดูรายละเอียด</a></div>
+                    </div>
+                </article>
+            </div>
+            <div class="center-cta show-mobile">
+                <a href="courses.html" class="btn btn-outline" style="width:100%;">ดูหลักสูตรทั้งหมด →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         TESTIMONIALS
+         ============================================================ -->
+    <section class="section testimonials-section">
+        <div class="container">
+            <div class="text-center reveal-up">
+                <p class="section-label">TESTIMONIALS</p>
+                <h2 class="section-title">เสียงจากลูกค้าของเรา</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal-up">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"ทีม Better Day ช่วยวางกลยุทธ์การตลาดออนไลน์ให้เราจนยอดขายเพิ่มขึ้น 300% ภายใน 3 เดือน ประทับใจมาก"</p>
+                    <div class="testimonial-author">
+                        <img src="https://i.pravatar.cc/80?img=11" alt="Reviewer" loading="lazy">
+                        <div><strong>คุณสมชาย</strong><span>CEO, TechStartup</span></div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal-up delay-1">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"เนื้อหาเข้าใจง่าย นำไปใช้ได้จริง ทีมที่ปรึกษาช่วยขุด DNA แบรนด์ได้ดีมาก ลูกค้าจำแบรนด์เราได้ทันที"</p>
+                    <div class="testimonial-author">
+                        <img src="https://i.pravatar.cc/80?img=5" alt="Reviewer" loading="lazy">
+                        <div><strong>คุณพิมพ์</strong><span>Founder, BeautyBrand</span></div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal-up delay-2">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"จากแบรนด์ออฟไลน์ที่ไม่มีใครรู้จัก Better Day ช่วยพาเราเข้าสู่โลกออนไลน์ ยอดขายเพิ่มขึ้นทุกเดือน"</p>
+                    <div class="testimonial-author">
+                        <img src="https://i.pravatar.cc/80?img=8" alt="Reviewer" loading="lazy">
+                        <div><strong>คุณวิทย์</strong><span>Marketing Director</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         CTA — Consultation
+         ============================================================ -->
+    <section class="cta-section" id="consultation">
+        <div class="container">
+            <div class="cta-box glass-panel reveal-up">
+                <div class="cta-glow" aria-hidden="true"></div>
+                <div class="cta-content">
+                    <p class="section-label">FREE CONSULTATION</p>
+                    <h2>พร้อมยกระดับธุรกิจของคุณ?</h2>
+                    <p>นัดหมายพูดคุยกับทีม Better Day Agency แบบ 1-on-1 เพื่อวิเคราะห์ปัญหาและวางแผนกลยุทธ์เฉพาะแบรนด์ของคุณ ฟรี ไม่มีค่าใช้จ่าย</p>
+                    <a href="contact.html" class="btn btn-primary btn-large btn-glow mt-4">
+                        <span>นัดหมายรับคำปรึกษาฟรี 30 นาที</span>
+                        <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="brand-logo">
+                        <span class="logo-icon">
+                            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                                <rect width="28" height="28" rx="8" fill="url(#logoGrad2)"/>
+                                <path d="M8 14L12 18L20 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs><linearGradient id="logoGrad2" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#e63946"/><stop offset="1" stop-color="#c1121f"/></linearGradient></defs>
+                            </svg>
+                        </span>
+                        BetterDay<span class="dot">.</span>
+                    </a>
+                    <p>บริษัท เบทเทอร์ เดย์ เอเจ็นซี่ จำกัด — Digital Marketing Agency ครบวงจร รับทำการตลาดออนไลน์</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#services">Consulting</a></li>
+                        <li><a href="#services">Branding</a></li>
+                        <li><a href="#services">Online Marketing</a></li>
+                        <li><a href="#services">Strategic Planning</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="courses.html">All Courses</a></li>
+                        <li><a href="#">Learning Paths</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#portfolio">Portfolio</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Better Day Agency Co., Ltd. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" aria-label="Back to top">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <script src="course-data.js"></script>
+    <script src="script.js"></script>
+    <script src="reminder.js"></script>
+</body>
+</html>

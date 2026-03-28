@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Better Day Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root,[data-theme="dark"]{--bg:#0a0a0a;--bg2:#111;--card:rgba(20,20,20,.85);--card-h:rgba(30,30,30,.95);--nav-bg:rgba(10,10,10,.82);--brd:rgba(255,255,255,.06);--brd2:rgba(255,255,255,.1);--tx:#f5f5f7;--tx2:#b0b0b5;--tx3:#6e6e73;--ac:#e63946;--ac-h:#c1121f;--ac-s:rgba(230,57,70,.1);--ac-g:rgba(230,57,70,.2);--green:#30d158;--orange:#ff9f0a;--inp-bg:rgba(255,255,255,.04);color-scheme:dark}
+        [data-theme="light"]{--bg:#fff;--bg2:#f5f5f7;--card:rgba(255,255,255,.92);--card-h:rgba(250,248,248,1);--nav-bg:rgba(255,255,255,.82);--brd:rgba(0,0,0,.06);--brd2:rgba(0,0,0,.1);--tx:#1a1a1a;--tx2:#555;--tx3:#999;--ac:#c1121f;--ac-h:#a00d1a;--ac-s:rgba(193,18,31,.06);--ac-g:rgba(193,18,31,.12);--green:#2d8a4e;--orange:#d4700a;--inp-bg:rgba(0,0,0,.03);color-scheme:light}
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter','Prompt',-apple-system,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
+        a{color:inherit;text-decoration:none}h1,h2,h3,h4{font-family:'Prompt',sans-serif;font-weight:600;letter-spacing:-.02em}
+        .wrap{display:flex;min-height:100vh}
+
+        /* Sidebar */
+        .side{width:260px;background:var(--bg);border-right:1px solid var(--brd);position:fixed;height:100vh;display:flex;flex-direction:column;padding:1.5rem;z-index:100;transition:background .4s}
+        .side-logo{font-family:'Prompt',sans-serif;font-size:1.3rem;font-weight:700;display:flex;align-items:center;gap:.5rem;margin-bottom:2rem;padding:.5rem}.side-logo .dot{color:var(--ac)}
+        .side-nav{display:flex;flex-direction:column;gap:.25rem;flex:1}
+        .side-nav a{padding:.7rem 1rem;border-radius:12px;color:var(--tx3);display:flex;align-items:center;gap:.75rem;font-size:.9rem;font-weight:500;transition:all .25s}
+        .side-nav a svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+        .side-nav a:hover{background:var(--ac-s);color:var(--tx)}
+        .side-nav a.active{background:var(--ac-s);color:var(--ac);font-weight:600}.side-nav a.active svg{stroke:var(--ac)}
+        .side-bottom{border-top:1px solid var(--brd);padding-top:1rem;display:flex;flex-direction:column;gap:.25rem}
+        .side-bottom a{padding:.7rem 1rem;border-radius:12px;color:var(--tx3);display:flex;align-items:center;gap:.75rem;font-size:.9rem;font-weight:500;transition:all .25s}
+        .side-bottom a svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+        .side-bottom a:hover{background:rgba(230,57,70,.06);color:var(--ac)}
+
+        .main{flex:1;margin-left:260px;padding:2rem 3rem 4rem;max-width:900px}
+        .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2.5rem}
+        .topbar h1{font-size:1.8rem;margin-bottom:.25rem}.topbar p{color:var(--tx3);font-size:.95rem}
+        .topbar-right{display:flex;align-items:center;gap:.75rem}
+        .theme-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--brd);background:var(--card);color:var(--tx2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s}
+        .theme-btn:hover{background:var(--ac-s);color:var(--ac);border-color:var(--ac)}
+        [data-theme="dark"] .ic-sun{display:block}[data-theme="dark"] .ic-moon{display:none}
+        [data-theme="light"] .ic-sun{display:none}[data-theme="light"] .ic-moon{display:block}
+        .avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--brd)}
+
+        /* Tabs */
+        .s-tabs{display:flex;gap:.5rem;margin-bottom:2rem;flex-wrap:wrap}
+        .s-tab{padding:.5rem 1.1rem;border-radius:980px;border:1px solid var(--brd);background:transparent;color:var(--tx3);font-family:inherit;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .3s;display:flex;align-items:center;gap:.35rem}
+        .s-tab svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+        .s-tab:hover{background:var(--ac-s);border-color:var(--ac);color:var(--ac)}
+        .s-tab.active{background:var(--ac);border-color:var(--ac);color:#fff}
+
+        /* Panels */
+        .s-panel{display:none}.s-panel.active{display:block}
+
+        /* Card */
+        .s-card{background:var(--card);border:1px solid var(--brd);border-radius:20px;padding:2rem;margin-bottom:1.25rem;transition:border-color .3s}
+        .s-card:hover{border-color:var(--brd2)}
+        .s-card-title{font-size:1.05rem;font-weight:600;margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}
+        .s-card-title svg{width:20px;height:20px;stroke:var(--ac);fill:none;stroke-width:2}
+
+        /* Avatar */
+        .av-section{display:flex;gap:1.5rem;align-items:center;margin-bottom:2rem}
+        .av-img{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--brd);transition:border-color .3s}.av-img:hover{border-color:var(--ac)}
+        .av-upload{display:inline-flex;align-items:center;gap:.4rem;padding:.45rem .9rem;border-radius:12px;border:1px solid var(--brd);background:transparent;color:var(--tx2);font-family:inherit;font-size:.8rem;font-weight:500;cursor:pointer;transition:all .3s}
+        .av-upload:hover{background:var(--ac-s);border-color:var(--ac);color:var(--ac)}
+        .av-upload svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+        .av-hint{font-size:.72rem;color:var(--tx3);margin-top:.3rem}
+
+        /* Form */
+        .f-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+        .f-group{margin-bottom:1.25rem}
+        .f-label{display:block;margin-bottom:.4rem;font-size:.8rem;font-weight:500;color:var(--tx2)}
+        .f-input{width:100%;padding:.75rem 1rem;background:var(--inp-bg);border:1px solid var(--brd);border-radius:12px;color:var(--tx);font-family:inherit;font-size:.9rem;outline:none;transition:all .3s cubic-bezier(.16,1,.3,1)}
+        .f-input::placeholder{color:var(--tx3)}
+        .f-input:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac-g)}
+        .f-input.readonly{opacity:.5;cursor:not-allowed}
+        .f-hint{font-size:.7rem;color:var(--tx3);margin-top:.25rem}
+        textarea.f-input{resize:vertical;min-height:80px}
+
+        .f-submit{padding:.7rem 2rem;background:var(--ac);color:#fff;border:none;border-radius:14px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .35s;box-shadow:0 0 12px var(--ac-g);position:relative;overflow:hidden}
+        .f-submit::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.1) 50%,transparent 60%);transform:translateX(-100%);transition:transform .6s}
+        .f-submit:hover{background:var(--ac-h);transform:translateY(-2px)}.f-submit:hover::before{transform:translateX(100%)}
+
+        /* Toggle */
+        .tog-row{display:flex;justify-content:space-between;align-items:center;padding:.75rem 0;border-bottom:1px solid var(--brd)}
+        .tog-row:last-child{border-bottom:none}
+        .tog-info strong{display:block;font-size:.88rem;margin-bottom:.1rem}.tog-info span{font-size:.75rem;color:var(--tx3)}
+        .tog-switch{position:relative;width:44px;height:24px;flex-shrink:0}
+        .tog-switch input{opacity:0;width:0;height:0}
+        .tog-slider{position:absolute;inset:0;background:var(--brd2);border-radius:12px;cursor:pointer;transition:all .3s}
+        .tog-slider::before{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:3px;transition:transform .3s}
+        .tog-switch input:checked+.tog-slider{background:var(--ac)}
+        .tog-switch input:checked+.tog-slider::before{transform:translateX(20px)}
+
+        /* Session */
+        .sess-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--brd)}
+        .sess-row:last-child{border-bottom:none}
+        .sess-info strong{display:block;font-size:.85rem}.sess-info span{font-size:.72rem;color:var(--tx3)}
+        .sess-badge{font-size:.7rem;font-weight:600;padding:.15rem .5rem;border-radius:980px}
+        .sess-badge.active{background:rgba(48,209,88,.1);color:var(--green)}
+        .sess-del{padding:.25rem .6rem;border-radius:8px;border:1px solid rgba(230,57,70,.2);background:transparent;color:var(--ac);font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s}
+        .sess-del:hover{background:rgba(230,57,70,.1);border-color:var(--ac)}
+
+        /* Danger */
+        .danger-card{border-color:rgba(230,57,70,.15)}.danger-card:hover{border-color:rgba(230,57,70,.3)}
+        .danger-btn{padding:.5rem 1.2rem;background:transparent;border:1px solid rgba(230,57,70,.25);color:var(--ac);border-radius:12px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .3s}
+        .danger-btn:hover{background:rgba(230,57,70,.1);border-color:var(--ac)}
+
+        /* Toast */
+        .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:.7rem 1.5rem;display:flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:500;box-shadow:0 12px 40px rgba(0,0,0,.2);z-index:9999;transition:transform .5s cubic-bezier(.34,1.56,.64,1);backdrop-filter:blur(20px)}
+        .toast.show{transform:translateX(-50%) translateY(0)}
+        .toast svg{width:18px;height:18px;stroke:var(--green);fill:none;stroke-width:2.5}
+
+        .rv{opacity:0;transform:translateY(25px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}.rv.show{opacity:1;transform:translateY(0)}
+        .d1{transition-delay:.05s}.d2{transition-delay:.1s}.d3{transition-delay:.15s}
+
+        .mobile-bar{display:none;position:fixed;top:0;left:0;right:0;z-index:200;padding:.75rem 1.25rem;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--brd);justify-content:space-between;align-items:center}
+        .mob-logo{font-family:'Prompt',sans-serif;font-size:1.2rem;font-weight:700}.mob-logo .dot{color:var(--ac)}
+        @media(max-width:900px){.side{display:none}.main{margin-left:0;padding:5rem 1.25rem 3rem}.mobile-bar{display:flex}.f-row{grid-template-columns:1fr}.av-section{flex-direction:column;text-align:center}}
+        ::selection{background:var(--ac-g);color:#fff}::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:3px}
+    </style>
+</head>
+<body>
+    <div class="mobile-bar">
+        <span class="mob-logo">BetterDay<span class="dot">.</span></span>
+        <div style="display:flex;gap:.5rem;align-items:center">
+            <button class="theme-btn" onclick="toggleTheme()"><svg class="ic-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><svg class="ic-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+            <img class="avatar" src="https://i.pravatar.cc/100?img=11" alt="Profile">
+        </div>
+    </div>
+    <div class="wrap">
+        <aside class="side">
+            <a href="index.html" class="side-logo"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="url(#sLG)"/><path d="M8 14L12 18L20 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="sLG" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#e63946"/><stop offset="1" stop-color="#c1121f"/></linearGradient></defs></svg>BetterDay<span class="dot">.</span></a>
+            <nav class="side-nav">
+                <a href="dashboard.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+                <a href="my-courses.html"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>My Courses</a>
+                <a href="certificates.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>Certificates</a>
+                <a href="history.html"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>Purchase History</a>
+                <a href="settings.html" class="active"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</a>
+            </nav>
+            <div class="side-bottom"><a href="#" onclick="localStorage.removeItem('isLoggedIn');location.href='index.html'"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Logout</a></div>
+        </aside>
+
+        <main class="main">
+            <header class="topbar rv d1">
+                <div><h1>ตั้งค่าบัญชี ⚙️</h1><p>จัดการข้อมูลส่วนตัว ความปลอดภัย และการแจ้งเตือน</p></div>
+                <div class="topbar-right">
+                    <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme"><svg class="ic-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><svg class="ic-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+                    <img class="avatar" src="https://i.pravatar.cc/100?img=11" alt="Profile">
+                </div>
+            </header>
+
+            <!-- Tabs -->
+            <div class="s-tabs rv d2">
+                <button class="s-tab active" data-tab="profile"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>โปรไฟล์</button>
+                <button class="s-tab" data-tab="security"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>ความปลอดภัย</button>
+                <button class="s-tab" data-tab="notif"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>การแจ้งเตือน</button>
+                <button class="s-tab" data-tab="danger"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>อื่นๆ</button>
+            </div>
+
+            <!-- Profile -->
+            <div class="s-panel active" id="panel-profile">
+                <div class="s-card rv">
+                    <div class="s-card-title"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>ข้อมูลส่วนตัว</div>
+                    <div class="av-section">
+                        <img class="av-img" src="https://i.pravatar.cc/200?img=11" alt="Profile">
+                        <div><button class="av-upload" type="button"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>อัปโหลดรูปใหม่</button><div class="av-hint">PNG, JPG ขนาดไม่เกิน 5MB</div></div>
+                    </div>
+                    <form onsubmit="event.preventDefault();showToast('บันทึกข้อมูลเรียบร้อย')">
+                        <div class="f-row"><div class="f-group"><label class="f-label">ชื่อ</label><input type="text" class="f-input" value="User" placeholder="ชื่อจริง"></div><div class="f-group"><label class="f-label">นามสกุล</label><input type="text" class="f-input" value="Admin" placeholder="นามสกุล"></div></div>
+                        <div class="f-group"><label class="f-label">อีเมล</label><input type="email" class="f-input readonly" value="user@example.com" readonly><div class="f-hint">อีเมลใช้สำหรับเข้าสู่ระบบ ไม่สามารถเปลี่ยนได้</div></div>
+                        <div class="f-row"><div class="f-group"><label class="f-label">เบอร์โทรศัพท์</label><input type="tel" class="f-input" placeholder="08x-xxx-xxxx"></div><div class="f-group"><label class="f-label">บริษัท / แบรนด์</label><input type="text" class="f-input" placeholder="ชื่อบริษัท"></div></div>
+                        <div class="f-group"><label class="f-label">Bio</label><textarea class="f-input" placeholder="เล่าเกี่ยวกับตัวคุณสั้นๆ..."></textarea></div>
+                        <button type="submit" class="f-submit">บันทึกข้อมูล</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Security -->
+            <div class="s-panel" id="panel-security">
+                <div class="s-card rv">
+                    <div class="s-card-title"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>เปลี่ยนรหัสผ่าน</div>
+                    <form onsubmit="event.preventDefault();showToast('เปลี่ยนรหัสผ่านเรียบร้อย')">
+                        <div class="f-group"><label class="f-label">รหัสผ่านปัจจุบัน</label><input type="password" class="f-input" placeholder="••••••••" required></div>
+                        <div class="f-group"><label class="f-label">รหัสผ่านใหม่</label><input type="password" class="f-input" placeholder="อย่างน้อย 8 ตัวอักษร" required minlength="8"></div>
+                        <div class="f-group"><label class="f-label">ยืนยันรหัสผ่านใหม่</label><input type="password" class="f-input" placeholder="พิมพ์อีกครั้ง" required></div>
+                        <button type="submit" class="f-submit">เปลี่ยนรหัสผ่าน</button>
+                    </form>
+                </div>
+                <div class="s-card rv">
+                    <div class="s-card-title"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>การยืนยันตัวตน 2 ขั้นตอน (2FA)</div>
+                    <div class="tog-row"><div class="tog-info"><strong>เปิดใช้งาน 2FA</strong><span>เพิ่มความปลอดภัยด้วยรหัส OTP ทุกครั้งที่เข้าสู่ระบบ</span></div><label class="tog-switch"><input type="checkbox"><span class="tog-slider"></span></label></div>
+                </div>
+                <div class="s-card rv">
+                    <div class="s-card-title"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>เซสชันที่ใช้งานอยู่</div>
+                    <div class="sess-row"><div class="sess-info"><strong>Chrome — Windows</strong><span>กรุงเทพฯ • ใช้งานอยู่ตอนนี้</span></div><span class="sess-badge active">Active</span></div>
+                    <div class="sess-row" id="sess2"><div class="sess-info"><strong>Safari — iPhone</strong><span>กรุงเทพฯ • 2 วันที่แล้ว</span></div><button class="sess-del" onclick="document.getElementById('sess2').remove();showToast('ลบเซสชันเรียบร้อย')">ลบ</button></div>
+                    <div class="sess-row" id="sess3"><div class="sess-info"><strong>Firefox — MacOS</strong><span>เชียงใหม่ • 5 วันที่แล้ว</span></div><button class="sess-del" onclick="document.getElementById('sess3').remove();showToast('ลบเซสชันเรียบร้อย')">ลบ</button></div>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="s-panel" id="panel-notif">
+                <div class="s-card rv">
+                    <div class="s-card-title"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M22 7l-10 7L2 7"/></svg>การแจ้งเตือนทางอีเมล</div>
+                    <div class="tog-row"><div class="tog-info"><strong>อัปเดตคอร์สเรียน</strong><span>แจ้งเตือนเมื่อมีเนื้อหาใหม่ในคอร์สที่คุณลงทะเบียน</span></div><label class="tog-switch"><input type="checkbox" checked><span class="tog-slider"></span></label></div>
+                    <div class="tog-row"><div class="tog-info"><strong>โปรโมชั่นและส่วนลด</strong><span>รับข่าวสารโปรโมชั่นพิเศษและส่วนลดคอร์สเรียน</span></div><label class="tog-switch"><input type="checkbox" checked><span class="tog-slider"></span></label></div>
+                    <div class="tog-row"><div class="tog-info"><strong>จดหมายข่าว (Newsletter)</strong><span>บทความ เทรนด์การตลาด และเคล็ดลับจาก Better Day</span></div><label class="tog-switch"><input type="checkbox"><span class="tog-slider"></span></label></div>
+                </div>
+                <div class="s-card rv">
+                    <div class="s-card-title"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>การแจ้งเตือนในระบบ</div>
+                    <div class="tog-row"><div class="tog-info"><strong>เตือนเรียนต่อ</strong><span>แจ้งเตือนเมื่อคุณไม่ได้เรียนเกิน 3 วัน</span></div><label class="tog-switch"><input type="checkbox" checked><span class="tog-slider"></span></label></div>
+                    <div class="tog-row"><div class="tog-info"><strong>ใบรับรองพร้อม</strong><span>แจ้งเตือนเมื่อใบรับรองของคุณพร้อมดาวน์โหลด</span></div><label class="tog-switch"><input type="checkbox" checked><span class="tog-slider"></span></label></div>
+                    <div class="tog-row"><div class="tog-info"><strong>ความคืบหน้าประจำสัปดาห์</strong><span>สรุปผลการเรียนรู้ทุกวันจันทร์</span></div><label class="tog-switch"><input type="checkbox"><span class="tog-slider"></span></label></div>
+                </div>
+            </div>
+
+            <!-- Danger -->
+            <div class="s-panel" id="panel-danger">
+                <div class="s-card rv">
+                    <div class="s-card-title"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>ข้อมูลบัญชี</div>
+                    <div class="tog-row"><div class="tog-info"><strong>ดาวน์โหลดข้อมูลของฉัน</strong><span>ดาวน์โหลดข้อมูลทั้งหมดที่เกี่ยวข้องกับบัญชีของคุณ</span></div><button class="f-submit" style="padding:.35rem .9rem;font-size:.78rem" onclick="showToast('กำลังเตรียมข้อมูล...')">ดาวน์โหลด</button></div>
+                    <div class="tog-row"><div class="tog-info"><strong>ล้างข้อมูลการเรียน</strong><span>รีเซ็ต progress ทั้งหมด (คอร์สที่ซื้อยังอยู่)</span></div><button class="danger-btn" onclick="if(confirm('ล้างข้อมูลการเรียนทั้งหมด?')){localStorage.removeItem('completedCourses');localStorage.removeItem('completionDates');showToast('ล้างข้อมูลเรียบร้อย')}">ล้างข้อมูล</button></div>
+                </div>
+                <div class="s-card danger-card rv">
+                    <div class="s-card-title" style="color:var(--ac)"><svg viewBox="0 0 24 24" style="stroke:var(--ac)"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Danger Zone</div>
+                    <div class="tog-row"><div class="tog-info"><strong>ออกจากระบบทุกอุปกรณ์</strong><span>ออกจากระบบทุกเซสชันที่ใช้งานอยู่</span></div><button class="danger-btn" onclick="localStorage.removeItem('isLoggedIn');showToast('ออกจากระบบแล้ว');setTimeout(()=>location.href='index.html',1500)">ออกจากระบบ</button></div>
+                    <div class="tog-row" style="border-bottom:none"><div class="tog-info"><strong>ลบบัญชีถาวร</strong><span>ลบบัญชีและข้อมูลทั้งหมดอย่างถาวร ไม่สามารถกู้คืนได้</span></div><button class="danger-btn" onclick="if(confirm('คุณแน่ใจหรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้')){localStorage.clear();location.href='index.html'}">ลบบัญชี</button></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span id="toastMsg"></span></div>
+
+    <script>
+        const root = document.documentElement;
+        root.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');
+        function toggleTheme(){const n=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',n);localStorage.setItem('theme',n)}
+
+        // Tabs
+        document.querySelectorAll('.s-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.s-panel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+                // Re-reveal
+                const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } }), { threshold: .08 });
+                document.querySelectorAll('.rv:not(.show)').forEach(el => obs.observe(el));
+            });
+        });
+
+        // Toast
+        function showToast(msg) { const t = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+
+        // Reveal
+        const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } }), { threshold: .08 });
+        document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+    </script>
+</body>
+</html>
